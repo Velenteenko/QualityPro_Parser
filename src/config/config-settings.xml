@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<app-settings>
+<tables-settings>
+			<table name="M1">
+				<column>MN</column>
+				<column>MN1</column>
+				<column>MN2</column>
+				<column>MN3</column>
+				<column id="12fgg-009dd">mottrtyy</column>
+				<column>MN4</column>
+				<column>MN5</column>
+				<column>MN6</column>
+				</table>
+			<table name="M2">
+				<column>MNO</column>
+				<column>MNO1</column>
+				<column>MNO2</column>
+				<column>MNO3</column>
+				<column>MNO4</column>
+				<column>MNO5</column>
+				<column>MNO6</column>
+				</table>				
+		</tables-settings>
+	</app-settings>
