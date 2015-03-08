@@ -22,31 +22,7 @@ public class Main {
 		{
 			extracted();
 			System.out.println(ex.getMessage());
-		}
-//		if(hashMap == null)
-//		{ 
-//			extracted();
-//		    return;
-//		}
-		
-		
-		
-		
-//		File file = new File("./src/congif3/file.xml");
-		
-//		//Если требуемого файла не существует.
-//		if(!file.exists()) {
-//		   //Создаем его.
-//		   try {
-//			   
-//			file.createNewFile();
-//			System.out.println("File created!");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		}
-		
+		}		
 	}
 
 	private static void extracted() {
