@@ -25,7 +25,6 @@ public class XMLProcessing {
 		
 	private static final String PATH_TO_CONFIG_DIR = "./src/config";
 	private static final String CONFIG_FILE = "config-settings.xml";
-	//private static final String PATH_TO_CONFIG_FILE_WIN = "./src/configs/config-settings.xml";
 	private static ArrayList<String> collectList;
 	private static Map<String, ArrayList<String>> resultMap;
 	
@@ -116,12 +115,7 @@ public class XMLProcessing {
 		try {
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			Document document;
-//			if (pathToConfigFile == null || (pathToConfigFile.length() < 2) ) {
-//			       document = documentBuilder.parse(new File(PATH_TO_CONFIG_FILE_LINUX));
-//			} else 
-//			{
 				document = documentBuilder.parse(new File(pathToConfigFile));
-//			}
 			String rootElString = document.getDocumentElement().getNodeName();
 			System.out.println("rootElString = "+rootElString);
 			
