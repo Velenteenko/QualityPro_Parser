@@ -1,4 +1,4 @@
-package vza.vaz.readdbf.parser;
+package vza.vaz.readdbf;
 
 import org.apache.commons.configuration.XMLConfiguration;
 import java.util.ArrayList;

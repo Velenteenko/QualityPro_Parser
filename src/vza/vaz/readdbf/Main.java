@@ -1,7 +1,6 @@
 package vza.vaz.readdbf;
 
 import nl.knaw.dans.common.dbflib.*;
-import vza.vaz.readdbf.parser.ParserDBF;
 
 import java.io.File;
 import java.io.IOException;

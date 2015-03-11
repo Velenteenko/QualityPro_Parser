@@ -3,25 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vza.vaz.CurrentRegex;
+package vza.vaz.ParseDbf;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import vza.vaz.ParseXML.Process.XMLProcessing;
+
+import vza.vaz.ParseXml.XMLProcessing;
 
 /**
  *
  * @author Dmitri
  */
-public class ParseRegex {
+public class Parse {
     
-    final String GOST = "ГОСТ";
-    final String OST = "ОСТ";
-    final String DSTU ="ДСТУ";
-    final String TU = "ТУ";
+//    final String GOST = "ГОСТ";
+//    final String OST = "ОСТ";
+//    final String DSTU ="ДСТУ";
+//    final String TU = "ТУ";
     
     /**
      * @param args the command line arguments

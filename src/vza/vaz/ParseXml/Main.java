@@ -1,4 +1,4 @@
-package vza.vaz.ParseXML;
+package vza.vaz.ParseXml;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,8 +6,6 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
-
-import vza.vaz.ParseXML.Process.XMLProcessing;
 
 public class Main {
 

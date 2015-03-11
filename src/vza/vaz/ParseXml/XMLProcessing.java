@@ -1,4 +1,4 @@
-package vza.vaz.ParseXML.Process;
+package vza.vaz.ParseXml;
 
 import java.io.File;
 import java.io.IOException;
