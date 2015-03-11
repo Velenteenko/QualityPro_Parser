@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import vza.vaz.ParseXml.XMLProcessing;
+import vza.vaz.XmlSettings.ParseXmlSettings;
 
 /**
  *
@@ -58,7 +58,7 @@ while (m2.find())
         System.out.println("Line: " + m2.group(0));
      }
 
-     HashMap<String, ArrayList<String>> readConfigs = new HashMap<>(XMLProcessing.readXML("./config/config-settings.xml","const", "name", "con"));
+     HashMap<String, ArrayList<String>> readConfigs = new HashMap<>(ParseXmlSettings.readXML("./config/config-settings.xml","const", "name", "con"));
      
         for (Map.Entry<String, ArrayList<String>> entrySet : readConfigs.entrySet()) {
             String key = entrySet.getKey();

@@ -1,4 +1,4 @@
-package vza.vaz.ParseXml;
+package vza.vaz.XmlSettings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,12 +12,15 @@ public class Main {
 	public static void main(String[] args) throws ParserConfigurationException, TransformerConfigurationException {
 
 		try{
-		HashMap<String, ArrayList<String>> hashMap  = new HashMap<String, ArrayList<String>>(XMLProcessing.readXML("table","name","column"));
+		HashMap<String, ArrayList<String>> hashMap  = new HashMap<String, ArrayList<String>>(ParseXmlSettings.readXML("table","name","column"));
 		
 		for (Map.Entry<String, ArrayList<String>> confs : hashMap.entrySet()) 
-			System.out.println("Table: "+confs.getKey()+" Columns: "+confs.getValue().toString());
-		} catch(Exception ex)
-		{			extracted();
+			System.out.println("Table: "+confs.getKey()+" Columns: "+confs.getValue().get(0));
+		
+		}
+		catch(Exception ex)
+		{   
+			extracted();
 			System.out.println(ex.getMessage());
 		}		
 	}
