@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<app-settings>
+
+	<path-settings>
+		<path name="DBF">
+			<p>M:\\Serv\\Aspect\\DBF\\m1.DBF</p>
+		</path>
+	</path-settings>
+
+	<tables-settings>
+		<table name="M1">
+			<column>MN</column>
+		</table>
+	</tables-settings>
+
+	<const-settings>
+		<const name="gost">
+			<con>ГОСТ</con>
+		</const>
+		<const name="ost">
+			<con>ОСТ</con>
+		</const>
+		<const name="tu">
+			<con>ТУ</con>
+		</const>
+		<const name="dstu">
+			<con>ДСТУ</con>
+		</const>
+	</const-settings>
+</app-settings>

@@ -9,13 +9,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -23,8 +17,9 @@ import org.xml.sax.SAXException;
 
 public class XMLProcessing {
 		
-	private static final String PATH_TO_CONFIG_DIR = "./src/config";
+	private static final String PATH_TO_CONFIG_DIR = "./config";
 	private static final String CONFIG_FILE = "config-settings.xml";
+	
 	private static ArrayList<String> collectList;
 	private static Map<String, ArrayList<String>> resultMap;
 	
