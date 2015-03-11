@@ -22,17 +22,26 @@ public class Parse {
 //    final String OST = "ОСТ";
 //    final String DSTU ="ДСТУ";
 //    final String TU = "ТУ";
-	private static ArrayList<String> namesL;
-	private static HashSet<String> gostsL;
-	private static HashSet<String> ostL;
-	private static HashSet<String> dstuL;
-	private static HashSet<String> tuL;
+	private  ArrayList<String> namesL;
+	private  HashSet<String> gostsL;
+	private  HashSet<String> ostL;
+	private  HashSet<String> dstuL;
+	private  HashSet<String> tuL;
 	
 	private String gost;
 	private String ost;
 	private String tu;
 	private String dstu;
 	private String newType;
+	
+	public Parse()
+	{
+		this.gost = "-";
+		this.ost = "-";
+		this.tu = "-";
+		this.dstu = "-";
+		rearConfig();
+	}
 	
 	
 	private void rearConfig()
@@ -61,27 +70,27 @@ public class Parse {
 		}
 	}
 	
-	public static ArrayList<String> getNames()
+	public  ArrayList<String> getNames()
 	{
 			
 		return namesL;
 	}
 	
-	public static HashSet<String> getGosts()
+	public  HashSet<String> getGosts()
 	{
 		return gostsL;
 	}
     
-	public static HashSet<String> getOst() {
+	public  HashSet<String> getOst() {
 		
 		return ostL;
 	}
 
-	public static HashSet<String> getDstu() {
+	public  HashSet<String> getDstu() {
 		return dstuL;
 	}
 
-	public static HashSet<String> getTu() {
+	public  HashSet<String> getTu() {
 		return tuL;
 	}
 }
