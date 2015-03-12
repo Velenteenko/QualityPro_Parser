@@ -34,23 +34,27 @@ public class Parse {
 	private String dstu;
 	private String newType;
 	
+	private int countRows;
+	
 	public Parse()
 	{
 		this.gost = "-";
 		this.ost = "-";
 		this.tu = "-";
 		this.dstu = "-";
-		rearConfig();
+		readConfig();
 	}
 	
 	
-	private void rearConfig()
+	private void readConfig()
 	{
 		HashMap<String, ArrayList<String>> mapConst = new HashMap<String, ArrayList<String>>(ParseXmlSettings.readXML("const", "name", "con"));
-		for (Map.Entry<String, ArrayList<String>> setmap : mapConst.entrySet()) {
+		for (Map.Entry<String, ArrayList<String>> setmap : mapConst.entrySet()) 
+		{
 			String key = setmap.getKey();
 			ArrayList<String> value = new ArrayList<String>(setmap.getValue());
-			switch (key) {
+			switch (key)
+			{
 			case "gost":
 				gost=value.get(0);
 				break;
@@ -92,5 +96,10 @@ public class Parse {
 
 	public  HashSet<String> getTu() {
 		return tuL;
+	}
+
+
+	public int getCountRows() {
+		return countRows;
 	}
 }

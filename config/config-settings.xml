@@ -2,8 +2,8 @@
 <app-settings>
 
 	<path-settings>
-		<path name="DBF">
-			<p>M:\\Serv\\Aspect\\DBF\\m1.DBF</p>
+		<path name="base">
+			<p>smb://192.168.30.100/serv/DBF/m1.DBF</p>
 		</path>
 	</path-settings>
 
