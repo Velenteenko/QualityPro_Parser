@@ -1,4 +1,4 @@
-package vza.vaz.readdbf;
+package vza.vaz.ParseDbf;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,9 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import com.hexiong.jdbf.DBFReader;
-import com.hexiong.jdbf.JDBFException;
-
 import vza.vaz.XmlSettings.ParseXmlSettings;
 import jcifs.smb.SmbFile;
 
@@ -22,7 +19,7 @@ public class ReadDbf {
 	private String tmpFileName;
 	private String charSetName;
 	private int collumnIndex;
-	private ArrayList<String> countTags;
+	//private ArrayList<String> countTags;
 	private int countLines;
 	
 	public ReadDbf()
@@ -34,11 +31,12 @@ public class ReadDbf {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.collumnIndex = 0;
+		this.collumnIndex = -1;
 		this.countLines = 0;
+		this.charSetName = "UTF-8";
 	}
 	
-	private HashSet<String> collectionRows;
+	private ArrayList<String> collectionRows;
 	
 	private void readConfig()
 	{
@@ -81,27 +79,29 @@ public class ReadDbf {
 		 is.close();
 	}
 
-	public HashSet<String> getRows() {
-		
+	public ArrayList<String> getRows() {
+	
 		DBFReader dbfreader;
-		this.collectionRows = new HashSet<String>();
+		this.collectionRows = new ArrayList<String>();
 		try {
-			dbfreader = new DBFReader(tmpFileName);
-//	        int j=0;
-//	        for (j = 0; j < dbfreader.getFieldCount(); j++) {
-//	          System.out.print(dbfreader.getField(j).getName()+"  ");
-//	        }
-//	        System.out.print("\n");
+			dbfreader = new DBFReader("./"+tmpFileName);
+	        int j=0;
+	        for (j = 0; j < dbfreader.getFieldCount(); j++) {
+	          System.out.print(dbfreader.getField(j).getName()+"  ");
+	        }
+	        System.out.print("\n");
 			int i = 0;
+			HashSet<String> tmpDuplicates = new HashSet<String>();
 	        for( i = 0; dbfreader.hasNextRecord(); i++)
 	        {
-	            Object aobj[] = dbfreader.nextRecord(Charset.forName("CP1251"));
+	            Object aobj[] = dbfreader.nextRecord(Charset.forName(this.charSetName));
 	            for (int k=0; k < aobj.length; k++)
-	            	 this.collectionRows.add((String) aobj[this.collumnIndex]);
+	            	 tmpDuplicates.add((String) aobj[this.collumnIndex]);
 	        }
 
 //	        System.out.println("Total Count: " + i);
 	        this.countLines = i;
+	        this.collectionRows.addAll(tmpDuplicates);
 		} catch (JDBFException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -110,7 +110,7 @@ public class ReadDbf {
 	}
 	
 	
-	public void setRows(HashSet<String> collectionRows) {
+	public void setRows(ArrayList<String> collectionRows) {
 		this.collectionRows = collectionRows;
 	}
 

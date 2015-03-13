@@ -31,6 +31,7 @@ import com.hexiong.jdbf.JDBFException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
+import vza.vaz.ParseDbf.ReadDbf;
 import vza.vaz.XmlSettings.ParseXmlSettings;
 //import nl.knaw.dans.common.dbflib.CorruptedTableException;
 ////import nl.knaw.dans.common.dbflib.Field;
