@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <app-settings>
 
-	<path-settings>
-		<path name="base">
+	<table-settings>
+		<field name="basePath">
 			<p>smb://192.168.30.100/serv/DBF/m1.DBF</p>
-		</path>
-	</path-settings>
-
-	<tables-settings>
-		<table name="M1">
-			<column>MN</column>
-		</table>
-	</tables-settings>
+		</field>
+		<field name="tempFile">
+			<p>m1.DBF</p>
+		</field>
+		<field name="columnIndex">
+			<!-- Insert here indexes of rows. Before that, look at fields in table. 
+				Calculation of indices is zero("0"). Class: vza.vaz.readdbf.ReadDbf 
+				getCollumnIndex() -->
+			<p>2</p>
+		</field>
+		<field name="charset">
+			<p>CP1251</p>
+		</field>
+	</table-settings>
 
 	<const-settings>
 		<const name="gost">
@@ -27,5 +33,5 @@
 			<con>ДСТУ</con>
 		</const>
 	</const-settings>
-	
+
 </app-settings>
