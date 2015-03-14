@@ -8,9 +8,12 @@
 		<field name="tempFile">
 			<p>m1.DBF</p>
 		</field>
+		<field name="tempDir">
+			<p>./tmpdb/</p>
+		</field>
 		<field name="columnIndex">
-			<!-- Insert here indexes of rows (tag: "<p>"). Before that, look at fields in table. 
-				Calculation of indices is zero("0"). Class: vza.vaz.readdbf.ReadDbf 
+			<!-- Insert here indexes of rows (tag: "<p>"). Before that, look at fields 
+				in table. Calculation of indices is zero("0"). Class: vza.vaz.readdbf.ReadDbf 
 				getCollumnIndex() -->
 			<p>2</p>
 		</field>
