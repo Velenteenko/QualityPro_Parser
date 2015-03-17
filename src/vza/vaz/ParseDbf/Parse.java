@@ -18,10 +18,6 @@ import vza.vaz.XmlSettings.ParseXmlSettings;
  */
 public class Parse {
     
-//    final String GOST = "ГОСТ";
-//    final String OST = "ОСТ";
-//    final String DSTU ="ДСТУ";
-//    final String TU = "ТУ";
 	private  ArrayList<String> namesL;
 	private  HashSet<String> gostsL;
 	private  HashSet<String> ostL;

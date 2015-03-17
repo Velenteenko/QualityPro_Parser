@@ -118,12 +118,12 @@ public class ParseXmlSettings {
 			Document document;
 				document = documentBuilder.parse(new File(pathToConfigFile));
 			String rootElString = document.getDocumentElement().getNodeName();
-			System.out.println("rootElString = "+rootElString);
+//			System.out.println("rootElString = "+rootElString);
 			
 			//Node	NodeList	
 			NodeList listTitle = document.getElementsByTagName(tag_Root_Element);
 			int listElemsCount = listTitle.getLength();
-			System.out.println("Number of Elements: <"+tag_Root_Element+">"+listTitle.getLength());
+//			System.out.println("Number of Elements: <"+tag_Root_Element+">"+listTitle.getLength());
 			
 			// variables
 			String tableName="";
@@ -198,12 +198,12 @@ public class ParseXmlSettings {
 				return null;
 			document = documentBuilder.parse(checkFile);
 			String rootElString = document.getDocumentElement().getNodeName();
-			System.out.println("rootElString = "+rootElString);
+//			System.out.println("rootElString = "+rootElString);
 			
 			//Node	NodeList	
 			NodeList listTitle = document.getElementsByTagName(tag_Root_Element);
 			int listElemsCount = listTitle.getLength();
-			System.out.println("Number of Elements: <"+tag_Root_Element+">"+listTitle.getLength());
+//			System.out.println("Number of Elements: <"+tag_Root_Element+">"+listTitle.getLength());
 			
 			// variables
 			String tableName="";

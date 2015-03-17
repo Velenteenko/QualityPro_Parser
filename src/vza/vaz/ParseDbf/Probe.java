@@ -1,18 +1,23 @@
 package vza.vaz.ParseDbf;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.util.ArrayList;
+
+//import org.jamel.dbf.processor.DbfProcessor;
 
 public class Probe {
 
-	public static void main(String[] args) throws UnsupportedEncodingException {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		ArrayList<String> collect = new ArrayList<String>();
-		RDBF rdbf = new RDBF("./tmpdb/m1.DBF");
-		collect.addAll(rdbf.getCollectionRows());
-		for (String string : collect) {
+		System.out.println("Create object.");
+		RDBF rdbf = new RDBF();
+		System.out.println("Object created.");
+		ArrayList<String> list = new ArrayList<String>(rdbf.getCollectionRows(true));
+		System.out.println("Get Strings.");
+		System.out.println("Count Lines: "+rdbf.getCountLines());
+		for (String string : list) {
 			System.out.println(string);
 		}
+		System.out.println("Command Successfull!!!");
 	}
-
 }

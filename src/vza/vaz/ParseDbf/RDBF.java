@@ -1,18 +1,19 @@
 package vza.vaz.ParseDbf;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import org.jamel.dbf.DbfReader;
-import org.jamel.dbf.utils.DbfUtils;
+import com.opencsv.CSVReader;
 
 import vza.vaz.XmlSettings.ParseXmlSettings;
 import jcifs.smb.SmbFile;
@@ -22,12 +23,14 @@ public class RDBF {
 	private String pathToBase;
 	private String tmpFileName;
 	private String tmpDirName;
-	private String charSetName;
+	private String tmpConvertFileName;
+	private String charSet;
 	private int collumnIndex;
 	// private ArrayList<String> countTags;
 	private int countLines;
 	
 	private ArrayList<String> collectionRows;
+	private CSVReader reader;
 
 	public RDBF() {
 		readConfig();
@@ -69,7 +72,7 @@ public class RDBF {
 				this.tmpFileName = value.get(0);
 				break;
 			case "charset":
-				this.charSetName = value.get(0);
+				this.charSet = value.get(0);
 				break;
 			case "columnIndex":
 				this.collumnIndex = Integer.parseInt(value.get(0));
@@ -77,13 +80,31 @@ public class RDBF {
 			case "tempDir":
 				this.tmpDirName = value.get(0);
 				break;
+			case "tempConvertFile":
+				this.tmpConvertFileName = value.get(0);
+				break;
 			}
+		}
+	}
+	
+	private void deleteTempFiles()
+	{
+		File file;
+		file = new File(tmpDirName+tmpFileName);
+		if(file.exists())
+		{
+			file.deleteOnExit();
+		}
+		file = new File(tmpDirName+tmpConvertFileName);
+		if(file.exists())
+		{
+			file.deleteOnExit();
 		}
 	}
 
 	private void stream2file() throws IOException {
 		SmbFile remoteFile = new SmbFile(pathToBase);
-		OutputStream os = new FileOutputStream(tmpFileName);
+		OutputStream os = new FileOutputStream(tmpDirName+tmpFileName);
 		InputStream is = remoteFile.getInputStream();
 		int bufferSize = 5096;
 		byte[] b = new byte[bufferSize];
@@ -93,23 +114,27 @@ public class RDBF {
 		}
 		os.close();
 		is.close();
+		CommandExecutorLinux.execute("dbf_dump --fs=\",\" "+tmpDirName+tmpFileName+" > "+tmpDirName+tmpConvertFileName);
 	}
-
-	public ArrayList<String> getCollectionRows() {
+	
+	public ArrayList<String> getCollectionRows(boolean isSort) throws IOException {
 
 		HashSet<String> tmpDuplicates = new HashSet<String>();
-		countLines = 0;
-		try (DbfReader read = new DbfReader(new File(tmpDirName + tmpFileName))) {
-			Object[] row;
-			while ((row = read.nextRecord()) != null) {
-				countLines++;
-				String name = new String(
-						DbfUtils.trimLeftSpaces((byte[]) row[collumnIndex]),
-						Charset.forName(charSetName));
-				tmpDuplicates.add(name);
-			}
+//		countLines = 0;
+		char quotechar = '\'';
+		char separator = ',';
+		int startLine = 0; 
+		reader = new CSVReader(new InputStreamReader(new FileInputStream(tmpDirName+tmpConvertFileName), charSet), separator, quotechar, startLine);
+		String[] stringOfData;
+		while((stringOfData = reader.readNext())!=null){
+			String name = stringOfData[collumnIndex];
+			tmpDuplicates.add(name);
 		}
+		deleteTempFiles();
 		collectionRows = new ArrayList<String>(tmpDuplicates);
+		if(isSort){
+		Collections.sort(collectionRows);
+		}
 		return collectionRows;
 	}
 
@@ -118,6 +143,9 @@ public class RDBF {
 	}
 
 	public int getCountLines() {
+		if(collectionRows.size() > 0){
+		countLines = collectionRows.size();
+		}
 		return countLines;
 	}
 
