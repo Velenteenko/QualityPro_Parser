@@ -20,6 +20,37 @@ import jcifs.smb.SmbFile;
 
 public class RDBF {
 
+	private void readConfig() {
+		String key = null;
+		ArrayList<String> value = null;
+		HashMap<String, ArrayList<String>> mapPath = new HashMap<String, ArrayList<String>>(
+				ParseXmlSettings.readXML("field", "name", "p"));
+		for (Map.Entry<String, ArrayList<String>> entryset : mapPath.entrySet()) {
+			key = entryset.getKey();
+			value = new ArrayList<String>(entryset.getValue());
+			switch (key) {
+			case "basePath":
+				this.pathToBase = value.get(0);
+				break;
+			case "tempFile":
+				this.tmpFileName = value.get(0);
+				break;
+			case "charset":
+				this.charSet = value.get(0);
+				break;
+			case "columnIndex":
+				this.collumnIndex = Integer.parseInt(value.get(0));
+				break;
+			case "tempDir":
+				this.tmpDirName = value.get(0);
+				break;
+			case "tempConvertFile":
+				this.tmpConvertFileName = value.get(0);
+				break;
+			}
+		}
+	}
+
 	private String pathToBase;
 	private String tmpFileName;
 	private String tmpDirName;
@@ -54,37 +85,6 @@ public class RDBF {
 	{
 		this(pahToBase);
 		this.collumnIndex = collumnIndex;
-	}
-
-	private void readConfig() {
-		String key = null;
-		ArrayList<String> value = null;
-		HashMap<String, ArrayList<String>> mapPath = new HashMap<String, ArrayList<String>>(
-				ParseXmlSettings.readXML("field", "name", "p"));
-		for (Map.Entry<String, ArrayList<String>> entryset : mapPath.entrySet()) {
-			key = entryset.getKey();
-			value = new ArrayList<String>(entryset.getValue());
-			switch (key) {
-			case "basePath":
-				this.pathToBase = value.get(0);
-				break;
-			case "tempFile":
-				this.tmpFileName = value.get(0);
-				break;
-			case "charset":
-				this.charSet = value.get(0);
-				break;
-			case "columnIndex":
-				this.collumnIndex = Integer.parseInt(value.get(0));
-				break;
-			case "tempDir":
-				this.tmpDirName = value.get(0);
-				break;
-			case "tempConvertFile":
-				this.tmpConvertFileName = value.get(0);
-				break;
-			}
-		}
 	}
 	
 	private void deleteTempFiles()
