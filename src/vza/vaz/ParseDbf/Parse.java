@@ -21,47 +21,35 @@ import vza.vaz.XmlSettings.ParseXmlSettings;
 public class Parse {
 
 	private ArrayList<String> namesL;
-	private HashSet<String> gostsL;
-	private HashSet<String> ostL;
-	private HashSet<String> dstuL;
-	private HashSet<String> tuL;
+	private ArrayList<String> gostsL;
+	private ArrayList<String> ostL;
+	private ArrayList<String> dstuL;
+	private ArrayList<String> tuL;
 
-	private String gost;
-	private String ost;
-	private String tu;
-	private String dstu;
-	private String newType;
+	private ArrayList<String> specifications;
 
-	private int countRows;
+//	private int countNamedRows;
 
 	private RDBF readLines;
 	private ArrayList<String> lines;
 
 	public Parse() {
-		this.gost = "-";
-		this.ost = "-";
-		this.tu = "-";
-		this.dstu = "-";
 		readConfig();
 		readLines = new RDBF();
 		try {
 			lines = new ArrayList<String>(readLines.getCollectionRows(true));
-			this.countRows = lines.size();
+//			this.countRows = lines.size();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public Parse(String pathToFile) {
-		this.gost = "-";
-		this.ost = "-";
-		this.tu = "-";
-		this.dstu = "-";
 		readConfig();
 		readLines = new RDBF(pathToFile);
 		try {
 			lines = new ArrayList<String>(readLines.getCollectionRows(true));
-			this.countRows = lines.size();
+//			this.countRows = lines.size();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -70,76 +58,59 @@ public class Parse {
 	private void readConfig() {
 		HashMap<String, ArrayList<String>> mapConst = new HashMap<String, ArrayList<String>>(
 				ParseXmlSettings.readXML("const", "name", "con"));
+		specifications = new ArrayList<String>();
 		for (Map.Entry<String, ArrayList<String>> setmap : mapConst.entrySet()) {
-			String key = setmap.getKey();
 			ArrayList<String> value = new ArrayList<String>(setmap.getValue());
-			switch (key) {
-			case "gost":
-				gost = value.get(0);
-				break;
-			case "dstu":
-				dstu = value.get(0);
-				break;
-			case "tu":
-				tu = value.get(0);
-				break;
-			case "ost":
-				ost = value.get(0);
-				break;
-			default:
-				newType = value.get(0);
-				break;
-			}
+			specifications.add(value.get(0));
 		}
 	}
 
 	public ArrayList<String> getNames() {
 		HashSet<String> setOfString = new HashSet<String>();
 		for (String st : lines) {
-			if ((st.contains(gost) | st.contains(ost) | st.contains(dstu)
-					| st.contains(tu)) & (st!="") ) {
-				int posG, posD, posT = 0;
-				posG = st.indexOf(gost);
-				posD = st.indexOf(dstu);
-				posT = st.indexOf(tu);
-				Integer[] posl = { posD, posG, posT };
-				ArrayList<Integer> maxOfMax = new ArrayList<Integer>();
-				for (int i = 0; i < posl.length; i++) {
-					if (posl[i] != -1) {
-						maxOfMax.add(posl[i]);
+				if((st=="")|(st == null))
+					continue;
+				ArrayList<Integer> poss = new ArrayList<Integer>();
+				for (String spec : specifications) {
+					poss.add(st.indexOf(spec));
+				}
+				
+				ArrayList<Integer> maxOfArray = new ArrayList<Integer>();
+				for (Integer ints : poss) {
+					if (ints != -1) {
+						maxOfArray.add(ints);
 					}
 				}
-				if(maxOfMax.size() != 0){
-				int minOf = Collections.min(maxOfMax);
-				setOfString.add(st.substring(0, minOf));
+				if (maxOfArray.size() != 0) {
+					int minimunOf = Collections.min(maxOfArray);
+					setOfString.add(st.substring(0, minimunOf));
+				}else {
+					setOfString.add(st.trim());
 				}
-			} else {
-				setOfString.add(st.trim());
-			}
 		}
 		namesL = new ArrayList<String>(setOfString);
 		Collections.sort(namesL);
 		return namesL;
 	}
 
-	public HashSet<String> getGosts() {
+	public ArrayList<String> getGosts() {
 		return gostsL;
 	}
 
-	public HashSet<String> getOst() {
+	public ArrayList<String> getOst() {
 
 		return ostL;
 	}
 
-	public HashSet<String> getDstu() {
+	public ArrayList<String> getDstu() {
 		return dstuL;
 	}
 
-	public HashSet<String> getTu() {
+	public ArrayList<String> getTu() {
 		return tuL;
 	}
 
-	public int getCountRows() {
-		return countRows;
+	public int getCountNamedRows() {
+		return namesL.size();
 	}
 }
