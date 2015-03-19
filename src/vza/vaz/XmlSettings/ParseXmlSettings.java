@@ -117,7 +117,7 @@ public class ParseXmlSettings {
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			Document document;
 				document = documentBuilder.parse(new File(pathToConfigFile));
-			String rootElString = document.getDocumentElement().getNodeName();
+//			String rootElString = document.getDocumentElement().getNodeName();
 //			System.out.println("rootElString = "+rootElString);
 			
 			//Node	NodeList	
@@ -197,7 +197,7 @@ public class ParseXmlSettings {
 			if(checkFile.length()==0)
 				return null;
 			document = documentBuilder.parse(checkFile);
-			String rootElString = document.getDocumentElement().getNodeName();
+//			String rootElString = document.getDocumentElement().getNodeName();
 //			System.out.println("rootElString = "+rootElString);
 			
 			//Node	NodeList	

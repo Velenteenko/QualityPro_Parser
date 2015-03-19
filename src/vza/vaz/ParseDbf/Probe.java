@@ -32,14 +32,23 @@ public class Probe {
 //		}
 		System.out.println("Start Regex:");
 		///// ГОСТ /////////////////////////
-		String g = "ГОСТ\\s+\\d+(\\-\\d+)+";
+		String g = "ГОСТ\\s?\\d+((\\-|\\:)\\d+)+";
 		////////////////////////////////////
-		String o = "[^Г]СТ(.)+(\\d)+\\s{1}";
-		String m = "Лист 0.8х500х1000 ГОСТ 19903-74-9-97776768768-67607-67 / ОК360В-2-III-Н-Ст3кп ДСТУ 2834-94 (ГОСТ 16523-97)";
-		Pattern pp = Pattern.compile(g);
-		Matcher mm = pp.matcher(m);
+		String ost = "ОСТ\\s?\\d+((\\-|\\:)\\d+)+";
+		////////////////////////////////////
+		String tu = "ТУ(.+)\\d(\\s|\\d)";
+		////////////////////////////////////
+		String dstu = "ДСТУ\\s?\\d+((\\-|\\:)\\d+)+";
+		///////////////////////////////////
+		String mark = "(/\\s?)(\\S+)";
+		///////////////////////////////////
+		
+		String m = "Лента 2.0х50 ГОСТ 2283-79 / 60С2А-Т-С ГОСТ 14959-79";
+		String osts = "Смола п/х хлорированная /ПСХ -ЛС ОСТ 6-031-37-79";
+		Pattern pp = Pattern.compile(mark);
+		Matcher mm = pp.matcher(osts);
 		while(mm.find()){
-			System.out.println(mm.group());
+			System.out.println(mm.group(2));
 		}
 		System.out.println("End Regex:");
 	}

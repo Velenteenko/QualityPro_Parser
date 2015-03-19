@@ -25,6 +25,15 @@
 		</field>
 	</table-settings>
 
+	<text-settings>
+		<regex name="gost0">
+			<r>ГОСТ\\s+\\d+((\\-|\\:)\\d+)+</r>
+		</regex>
+		<regex name="ost">
+			<r>ОСТ\\s+\\d+(\\-\\d+)+</r>
+		</regex>
+	</text-settings>
+
 	<const-settings>
 		<const name="gost">
 			<con>ГОСТ</con>
