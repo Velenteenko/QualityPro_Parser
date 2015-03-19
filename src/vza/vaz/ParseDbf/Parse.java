@@ -27,6 +27,11 @@ public class Parse {
 	private ArrayList<String> tuL;
 
 	private ArrayList<String> specifications;
+	
+	private final String GOST = "gost";
+	private final String OST = "ost";
+	private final String TU = "tu";
+	private final String DSTU = "dstu";
 
 //	private int countNamedRows;
 
