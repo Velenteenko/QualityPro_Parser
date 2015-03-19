@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 public class Probe {
 
 	public static void main(String[] args) throws IOException {
+		//123456
 		// TODO Auto-generated method stub
 //		System.out.println("Create object.");
 //		RDBF rdbf = new RDBF("/home/dmitri/HProjectFiles/m1.DBF");
