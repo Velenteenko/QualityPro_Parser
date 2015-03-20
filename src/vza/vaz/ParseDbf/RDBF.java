@@ -68,13 +68,13 @@ public class RDBF {
 	}
 
 	private void stream2file() throws IOException {
-		boolean dirCreated = false;
+//		boolean dirCreated = false;
 		SmbFile remoteFile = new SmbFile(pathToBase);
 		if (!new File(tmpDirName + tmpFileName).exists()) {
 			File dir = new File(tmpDirName);
-			dirCreated = dir.mkdir();
+			dir.mkdir();
 		}
-		if (dirCreated) {
+//		if (dirCreated) {
 			OutputStream os = new FileOutputStream(tmpDirName + tmpFileName);
 			InputStream is = remoteFile.getInputStream();
 			int bufferSize = 5096;
@@ -87,7 +87,7 @@ public class RDBF {
 			is.close();
 			CommandExecutorLinux.execute("dbf_dump --fs=\",\" " + tmpDirName
 					+ tmpFileName + " > " + tmpDirName + tmpConvertFileName);
-		}
+//		}
 	}
 
 	private void readConfig() {

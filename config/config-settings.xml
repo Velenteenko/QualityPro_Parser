@@ -26,12 +26,41 @@
 	</table-settings>
 
 	<text-regex-settings>
+		<!-- При добавлении регулярного выражения нужно учитывать количество "\" 
+			в коде, конвертируется в: "\\" в файле конфигурации должно быть: "\" (напр. 
+			Код - "\\d" Файл - "\d") -->
 		<regex name="gost">
-			<r>ГОСТ\\s+\\d+((\\-|\\:)\\d+)+</r>
+			<r>ГОСТ\s?\d+((\-|\:)\d+)+</r>
 		</regex>
 		<regex name="ost">
-			<r>ОСТ\\s+\\d+(\\-\\d+)+</r>
+			<r>(.?)([^Г]ОСТ\s?\d+((\-|\:)\d+)+)</r>
 		</regex>
+		<regex name="tu">
+			<r>(.?)(ТУ\s?\S+\d+|\$)</r>
+		</regex>
+		<regex name="dstu">
+			<r>ДСТУ\s?\d+((\-|\:)\d+)+</r>
+		</regex>
+		<regex name="mark">
+			<r>(/\s?)(\S+)</r>
+		</regex>
+
+		<regexGroup name="gost">
+			<g>0</g>
+		</regexGroup>
+		<regexGroup name="ost">
+			<g>2</g>
+		</regexGroup>
+		<regexGroup name="tu">
+			<g>2</g>
+		</regexGroup>
+		<regexGroup name="dstu">
+			<g>0</g>
+		</regexGroup>
+		<regexGroup name="mark">
+			<g>2</g>
+		</regexGroup>
+
 	</text-regex-settings>
 
 	<const-settings>
