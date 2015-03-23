@@ -33,10 +33,10 @@
 			<r>ГОСТ\s?\d+((\-|\:)\d+)+</r>
 		</regex>
 		<regex name="ost">
-			<r>(.?)([^Г]ОСТ\s?\d+((\-|\:)\d+)+)</r>
+			<r>(.?)([^Г|\S]ОСТ\s?\d+((\-|\:)\d+)+)</r>
 		</regex>
 		<regex name="tu">
-			<r>(.?)(ТУ\s?\S+\d+|\$)</r>
+			<r>(.?)([^ДС|\S]ТУ\s?\S+\d+)</r>
 		</regex>
 		<regex name="dstu">
 			<r>ДСТУ\s?\d+((\-|\:)\d+)+</r>
@@ -62,6 +62,21 @@
 		</regexGroup>
 
 	</text-regex-settings>
+
+	<db-settings>
+		<db name="DBDriver">
+			<p>com.mysql.jdbc.Driver</p>
+		</db>
+		<db name="DBConnectionString">
+			<p>jdbc:mysql://192.168.31.200:3306/QualityOfProducts</p>
+		</db>
+		<db name="DBUserName">
+			<p>username</p>
+		</db>
+		<db name="DBPassword">
+			<p>adminpass</p>
+		</db>
+	</db-settings>
 
 	<const-settings>
 		<const name="gost">

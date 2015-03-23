@@ -1,4 +1,4 @@
-package vza.vaz.ParseDbf;
+package ua.com.vza.ParseDbf;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 import com.opencsv.CSVReader;
 
-import vza.vaz.XmlSettings.ParseXmlSettings;
+import ua.com.vza.XmlSettings.ParseXmlSettings;
 import jcifs.smb.SmbFile;
 
 public class RDBF {
@@ -26,8 +26,8 @@ public class RDBF {
 	private String tmpConvertFileName;
 	private String charSet;
 	private int collumnIndex;
-	// private ArrayList<String> countTags;
-	private int countLines;
+	private int countSortedLines;
+	private int countNoSortedLines;
 
 	private ArrayList<String> collectionRows;
 	private CSVReader reader;
@@ -40,13 +40,15 @@ public class RDBF {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.countLines = 0;
+		this.countNoSortedLines = 0;
+		this.countNoSortedLines = 0;
 	}
 
 	public RDBF(String pahToBase) {
 		readConfig();
 		this.pathToBase = pahToBase;
-		this.countLines = 0;
+		this.countSortedLines = 0;
+		this.countNoSortedLines = 0;
 
 	}
 
@@ -59,22 +61,20 @@ public class RDBF {
 		File file;
 		file = new File(tmpDirName + tmpFileName);
 		if (file.exists()) {
-			file.deleteOnExit();
+			file.delete();
 		}
 		file = new File(tmpDirName + tmpConvertFileName);
 		if (file.exists()) {
-			file.deleteOnExit();
+			file.delete();
 		}
 	}
 
 	private void stream2file() throws IOException {
-//		boolean dirCreated = false;
 		SmbFile remoteFile = new SmbFile(pathToBase);
 		if (!new File(tmpDirName + tmpFileName).exists()) {
 			File dir = new File(tmpDirName);
 			dir.mkdir();
 		}
-//		if (dirCreated) {
 			OutputStream os = new FileOutputStream(tmpDirName + tmpFileName);
 			InputStream is = remoteFile.getInputStream();
 			int bufferSize = 5096;
@@ -121,29 +121,8 @@ public class RDBF {
 		}
 	}
 
-	// private String GenerateConfigFile() {
-	// File dir = new File(tmpDirName);
-	// boolean createdDit = dir.mkdir();
-	// if (createdDit) {
-	// System.out.println("Directory create successfull!");
-	// }
-	// File file = new File(dir.getPath() + "/" + CONFIG_FILE);
-	// if (!file.exists()) {
-	// boolean createFile;
-	// try {
-	// createFile = file.createNewFile();
-	// if (createFile) {
-	// System.out.println("File create successfull!");
-	// }
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
-	// return file.getPath();
-	// }
 
-	public ArrayList<String> getCollectionRows(boolean isSort)
+	public ArrayList<String> getCollectionRows()
 			throws IOException {
 
 		HashSet<String> tmpDuplicates = new HashSet<String>();
@@ -151,19 +130,21 @@ public class RDBF {
 		char quotechar = '\'';
 		char separator = ',';
 		int startLine = 0;
+		countNoSortedLines = 0;
 		reader = new CSVReader(new InputStreamReader(new FileInputStream(
 				tmpDirName + tmpConvertFileName), charSet), separator,
 				quotechar, startLine);
 		String[] stringOfData;
 		while ((stringOfData = reader.readNext()) != null) {
+			countNoSortedLines++;
 			String name = stringOfData[collumnIndex];
 			tmpDuplicates.add(name);
 		}
 		deleteTempFiles();
 		collectionRows = new ArrayList<String>(tmpDuplicates);
-		if (isSort) {
+//		if (isSort) {
 			Collections.sort(collectionRows);
-		}
+//		}
 		return collectionRows;
 	}
 
@@ -171,11 +152,11 @@ public class RDBF {
 		this.collectionRows = collectionRows;
 	}
 
-	public int getCountLines() {
+	public int getCountSortedLines() {
 		if (collectionRows.size() > 0) {
-			countLines = collectionRows.size();
+			countSortedLines = collectionRows.size();
 		}
-		return countLines;
+		return countSortedLines;
 	}
 
 	public int getCollumnIndex() {
@@ -184,6 +165,10 @@ public class RDBF {
 
 	public void setCollumnIndex(int collumnIndex) {
 		this.collumnIndex = collumnIndex;
+	}
+
+	public int getCountNoSortedLines() {
+		return countNoSortedLines;
 	}
 
 }

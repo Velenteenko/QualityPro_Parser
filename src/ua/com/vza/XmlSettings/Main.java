@@ -1,4 +1,4 @@
-package vza.vaz.XmlSettings;
+package ua.com.vza.XmlSettings;
 
 import java.util.ArrayList;
 import java.util.HashMap;

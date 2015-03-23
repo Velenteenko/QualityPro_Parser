@@ -1,4 +1,4 @@
-package vza.vaz.ParseDbf;
+package ua.com.vza.ParseDbf;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

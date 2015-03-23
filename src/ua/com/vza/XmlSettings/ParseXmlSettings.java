@@ -1,4 +1,4 @@
-package vza.vaz.XmlSettings;
+package ua.com.vza.XmlSettings;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 
 public class ParseXmlSettings {
 		
-	private static final String PATH_TO_CONFIG_DIR = "./config";
+	private static final String PATH_TO_CONFIG_DIR = "./config/";
 	private static final String CONFIG_FILE = "config-settings.xml";
 	
 	private static ArrayList<String> collectList;
@@ -35,18 +35,14 @@ public class ParseXmlSettings {
 	private static String GenerateConfigFile()
 	{
 		File dir = new File(PATH_TO_CONFIG_DIR);
-		boolean createdDit = dir.mkdir();
-		if (createdDit) {
-			System.out.println("Directory create successfull!");
-		}
-		File file = new File(dir.getPath()+"/"+CONFIG_FILE);
+		dir.mkdir();
+//		if (createdDit) {
+//			System.out.println("Directory create successful!");
+//		}
+		File file = new File(dir.getPath()+CONFIG_FILE);
 		if (!file.exists()) {
-			boolean createFile;
 			try {
-				createFile = file.createNewFile();
-				if (createFile) {
-					System.out.println("File create successfull!");
-				}
+				file.createNewFile();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -117,13 +113,10 @@ public class ParseXmlSettings {
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			Document document;
 				document = documentBuilder.parse(new File(pathToConfigFile));
-//			String rootElString = document.getDocumentElement().getNodeName();
-//			System.out.println("rootElString = "+rootElString);
 			
 			//Node	NodeList	
 			NodeList listTitle = document.getElementsByTagName(tag_Root_Element);
 			int listElemsCount = listTitle.getLength();
-//			System.out.println("Number of Elements: <"+tag_Root_Element+">"+listTitle.getLength());
 			
 			// variables
 			String tableName="";
@@ -189,21 +182,18 @@ public class ParseXmlSettings {
 		try {
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			Document document;
-			if (!(new File(PATH_TO_CONFIG_DIR+"/"+CONFIG_FILE).exists())) {
+			if (!(new File(PATH_TO_CONFIG_DIR+CONFIG_FILE).exists())) {
 				GenerateConfigFile();
 				return null;
 			}
-			File checkFile = new File(PATH_TO_CONFIG_DIR+"/"+CONFIG_FILE);
+			File checkFile = new File(PATH_TO_CONFIG_DIR+CONFIG_FILE);
 			if(checkFile.length()==0)
 				return null;
 			document = documentBuilder.parse(checkFile);
-//			String rootElString = document.getDocumentElement().getNodeName();
-//			System.out.println("rootElString = "+rootElString);
 			
 			//Node	NodeList	
 			NodeList listTitle = document.getElementsByTagName(tag_Root_Element);
 			int listElemsCount = listTitle.getLength();
-//			System.out.println("Number of Elements: <"+tag_Root_Element+">"+listTitle.getLength());
 			
 			// variables
 			String tableName="";
