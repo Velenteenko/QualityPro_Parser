@@ -16,7 +16,7 @@
 		</field>
 		<field name="columnIndex">
 			<!-- Insert here indexes of rows (tag: "<p>"). Before that, look at fields 
-				in table. Calculation of indexes is zero("0"). Class: vza.vaz.readdbf.ReadDbf 
+				in table. Calculation of indexes is zero("0"). Class: ua.com.vza.readdbf.ReadDbf 
 				getCollumnIndex() -->
 			<p>2</p>
 		</field>
@@ -75,6 +75,25 @@
 		</db>
 		<db name="DBPassword">
 			<p>adminpass</p>
+		</db>
+		<!-- ///////////////////////////////// -->
+		<db name="selectName">
+			<p>SELECT * FROM sprProductName</p>
+		</db>
+		<db name="updateName">
+			<p>INSERT INTO sprProductName (name) VALUES (?)</p>
+		</db>
+		<db name="selectSpecification">
+			<p>SELECT * FROM sprStandart</p>
+		</db>
+		<db name="updateSpecification">
+			<p>INSERT INTO sprStandart (name) VALUES (?)</p>
+		</db>
+		<db name="selectProductType">
+			<p>SELECT * FROM sprProductType</p>
+		</db>
+		<db name="updateProductType">
+			<p>INSERT INTO sprProductType (name) VALUES (?)</p>
 		</db>
 	</db-settings>
 

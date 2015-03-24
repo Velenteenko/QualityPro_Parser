@@ -142,9 +142,7 @@ public class RDBF {
 		}
 		deleteTempFiles();
 		collectionRows = new ArrayList<String>(tmpDuplicates);
-//		if (isSort) {
 			Collections.sort(collectionRows);
-//		}
 		return collectionRows;
 	}
 

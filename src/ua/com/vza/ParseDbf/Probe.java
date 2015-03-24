@@ -1,7 +1,16 @@
 package ua.com.vza.ParseDbf;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+//import java.sql.Connection;
+import java.sql.SQLException;
+//import java.util.ArrayList;
+
+import java.sql.Statement;
 import java.util.ArrayList;
+
+import ua.com.vza.DBUtils.DBProcess;
 //import java.util.regex.Matcher;
 //import java.util.regex.Pattern;
 
@@ -9,25 +18,33 @@ import java.util.ArrayList;
 public class Probe {
 
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, SQLException {
 
-		System.out.println("Start Regex:");
-		long starttime = System.currentTimeMillis();
+//		System.out.println("Start Regex:");
+//		long starttime = System.currentTimeMillis();
+//		
+//		Parse parses = new Parse();
+//		ArrayList<String> probeList, probelist2;
+//		probeList = new ArrayList<String>(parses.getNames(false));
+//		probelist2 = new ArrayList<String>(parses.getGosts(false));
+//
+//		for (String string : probeList) {
+//			System.out.println(string);
+//		}
+//		long endtime = System.currentTimeMillis();
+//		long totaltime = (endtime - starttime) / 1000 ;
+//		System.out.println("Total before dulpicate delete lines: "+parses.getNoSortedCountRows());
+//		System.out.println("Total after dulpicate delete lines: "+parses.getCountNamedRows());
+//		System.out.println("Total lines process: "+probeList.size());
+//		System.out.println("Total time "+totaltime+" seconds.");
 		
-		Parse parses = new Parse();
-		ArrayList<String> probeList, probelist2;
-		probeList = new ArrayList<String>(parses.getNames(false));
-		probelist2 = new ArrayList<String>(parses.getGosts(false));
-
-		for (String string : probeList) {
+		System.out.println("start connection");
+		DBProcess con = new DBProcess();
+		ArrayList<String> list = new ArrayList<String>(con.selectFromQuery("SELECT * FROM sprProductName"));
+		for (String string : list) {
 			System.out.println(string);
 		}
-		long endtime = System.currentTimeMillis();
-		long totaltime = (endtime - starttime) / 1000 ;
-		System.out.println("Total before dulpicate delete lines: "+parses.getNoSortedCountRows());
-		System.out.println("Total after dulpicate delete lines: "+parses.getCountNamedRows());
-		System.out.println("Total lines process: "+probeList.size());
-		System.out.println("Total time "+totaltime+" seconds.");
+		System.out.println("connection closed...");
 
 		 /// ГОСТ /////////////////////////
 //		 String g = "ГОСТ\\s?\\d+((\\-|\\:)\\d+)+";
