@@ -21,8 +21,8 @@ public class Probe {
 
 	public static void main(String[] args) throws IOException, SQLException {
 
-		System.out.println("Start Regex:");
-		long starttime = System.currentTimeMillis();
+		System.out.println("Start:");
+//		long starttime = System.currentTimeMillis();
 		//RDBF rdbf = new RDBF();
 		//ArrayList<String> rows = new ArrayList<String>(rdbf.getCollectionRows());
 //		Parse parses = new Parse();
@@ -35,20 +35,21 @@ public class Probe {
 //		for (String string : probeList) {
 //			System.out.println(string);
 //		}
-		CommandExecutorLinux.execute("dbf_dump --fs=\",\" /home/velenteenko/WorkDir/m1.DBF"+" > "+"/home/velenteenko/WorkDir/m111.csv");
-		long endtime = System.currentTimeMillis();
-		long totaltime = (endtime - starttime) ;
+//		CommandExecutorLinux.execute("dbf_dump --fs=\",\" /home/velenteenko/WorkDir/m1.DBF"+" > "+"/home/velenteenko/WorkDir/m111.csv");
+//		long endtime = System.currentTimeMillis();
+//		long totaltime = (endtime - starttime) ;
 //		System.out.println("Total before dulpicate delete lines: "+parses.getNoSortedCountRows());
 //		System.out.println("Total after dulpicate delete lines: "+parses.getCountNamedRows());
 //		System.out.println("Total lines process: "+probeList.size());
-		System.out.println("Total time "+totaltime+" seconds.");
+//		System.out.println("Total time "+totaltime+" seconds.");
 		
 //		System.out.println("start connection");
-//		DBProcess con = new DBProcess();
-//		ArrayList<String> list = new ArrayList<String>(con.selectQuery("SELECT * FROM sprCountLinesInDBF", new String[]{"before_parse","after_parse"}));
-//		for (String string : list) {
-//			System.out.println(string);
-//		}
+		DBProcess con = new DBProcess();
+		ArrayList<String> list = new ArrayList<String>(con.selectValues("SELECT af_parseName,af_parseMark,af_parseGOST,af_parseOST,af_parseTU,af_parseDSTU FROM sprCountLinesInDBF WHERE id=1",
+				"int", new String[]{"af_parseName","af_parseMark","af_parseGOST","af_parseOST","af_parseTU","af_parseDSTU"}));
+		for (String string : list) {
+			System.out.println(string);
+		}
 		
 //		con.insertQuery("INSERT INTO sprProductName (name) VALUES (?)", new ArrayList<String>(Arrays.asList("Petya2","Vasya1","Dima1","Colya1")));
 //		System.out.println("Insert successfull");
@@ -74,6 +75,6 @@ public class Probe {
 //		 while(mm.find()){
 //		 System.out.println(mm.group());
 //		 }
-//		 System.out.println("End Regex:");
+		 System.out.println("End:");
 	}
 }

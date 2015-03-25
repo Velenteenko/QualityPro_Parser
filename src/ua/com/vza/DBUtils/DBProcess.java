@@ -22,8 +22,14 @@ public class DBProcess {
 
 	private String selectName;
 	private String updateName;
-	private String selectSpecifications;
-	private String updateSpecifications;
+	private String selectSpGOST;
+	private String updateSpGOST;
+	private String selectSpOST;
+	private String updateSpOST;
+	private String selectSpTU;
+	private String updateSpTU;
+	private String selectSpDSTU;
+	private String updateSpDSTU;
 	private String selectProductType;
 	private String updateProductType;
 	private String selectCountRecord;
@@ -80,11 +86,29 @@ public class DBProcess {
 			case "updateName":
 				updateName = value.get(0);
 				break;
-			case "selectSpecifications":
-				selectSpecifications = value.get(0);
+			case "selectSpGOST":
+				selectSpGOST = value.get(0);
 				break;
-			case "insertSpecifications":
-				updateSpecifications = value.get(0);
+			case "insertSpGOST":
+				updateSpGOST = value.get(0);
+				break;
+			case "selectSpOST":
+				selectSpOST = value.get(0);
+				break;
+			case "insertSpOST":
+				updateSpOST = value.get(0);
+				break;
+			case "selectSpTU":
+				selectSpTU = value.get(0);
+				break;
+			case "insertSpTU":
+				updateSpTU = value.get(0);
+				break;
+			case "selectSpDSTU":
+				selectSpDSTU = value.get(0);
+				break;
+			case "insertSpDSTU":
+				updateSpDSTU = value.get(0);
 				break;
 			case "selectProductType":
 				selectProductType = value.get(0);
@@ -142,18 +166,20 @@ public class DBProcess {
 		}
 	}
 
-	private void updateValueOfCountRows(String query, String[] params) throws SQLException {
+	private void updateValueOfCountRows(String query, String[] params)
+			throws SQLException {
 		closeConnection();
 		getConnection();
 		try {
 			dbConnection.setAutoCommit(false);
 			preparedStatementUpdate = dbConnection.prepareStatement(query);
 			for (int i = 1; i <= params.length; i++) {
-				preparedStatementUpdate.setInt(i, Integer.valueOf(params[i-1]));
+				preparedStatementUpdate.setInt(i,
+						Integer.valueOf(params[i - 1]));
 			}
 			preparedStatementUpdate.executeUpdate();
 			dbConnection.commit();
-			
+
 		} catch (SQLException ex) {
 			dbConnection.rollback();
 			ex.printStackTrace();
@@ -181,26 +207,48 @@ public class DBProcess {
 
 	}
 
-	private ArrayList<String> selectValues(String query, String[] namesOfFileds)
-			throws SQLException {
+	public ArrayList<String> selectValues(String query, String typeFields,
+			String[] namesOfFileds) throws SQLException {
+		closeConnection();
+		getConnection();
+		
 		preparedStatementSelect = null;
 		ArrayList<String> tmp = new ArrayList<String>();
+		try{
 		preparedStatementSelect = (Statement) dbConnection.createStatement();
 		ResultSet set1 = preparedStatementSelect.executeQuery(query);
 		while (set1.next()) {
-			if (namesOfFileds.length > 1) {
-				for (int i = 0; i < namesOfFileds.length; i++) {
-					tmp.add(set1.getString(namesOfFileds[i]));
+			switch (typeFields) {
+			case "string":
+				if (namesOfFileds.length > 1) {
+					for (int i = 0; i < namesOfFileds.length; i++) {
+						tmp.add(set1.getString(namesOfFileds[i]));
+					}
+				} else {
+
+					tmp.add(set1.getString(namesOfFileds[0]));
 				}
-			} else {
-				tmp.add(set1.getString(namesOfFileds[0]));
+				break;
+
+			case "int":
+				if (namesOfFileds.length > 1) {
+					for (int i = 0; i < namesOfFileds.length; i++) {
+						tmp.add(String.valueOf(set1.getInt(namesOfFileds[i])));
+					}
+				} else {
+
+					tmp.add(String.valueOf(set1.getString(namesOfFileds[0])));
+				}
+				break;
 			}
 		}
+		}catch()
 		closeConnection();
 		return tmp;
 	}
 
-	public void updateData() {
-		
+	public void updateData() throws SQLException {
+		closeConnection();
+		getConnection();
 	}
 }
