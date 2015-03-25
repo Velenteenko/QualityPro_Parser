@@ -80,20 +80,26 @@
 		<db name="selectName">
 			<p>SELECT * FROM sprProductName</p>
 		</db>
-		<db name="updateName">
+		<db name="insertName">
 			<p>INSERT INTO sprProductName (name) VALUES (?)</p>
 		</db>
 		<db name="selectSpecification">
 			<p>SELECT * FROM sprStandart</p>
 		</db>
-		<db name="updateSpecification">
+		<db name="insertSpecification">
 			<p>INSERT INTO sprStandart (name) VALUES (?)</p>
 		</db>
 		<db name="selectProductType">
 			<p>SELECT * FROM sprProductType</p>
 		</db>
-		<db name="updateProductType">
+		<db name="insertProductType">
 			<p>INSERT INTO sprProductType (name) VALUES (?)</p>
+		</db>
+		<db name="selectCountRecord">
+			<p>SELECT before_parse,after_parse FROM sprCountLinesInDBF WHERE id=1</p>
+		</db>
+		<db name="updateCountRecord">
+			<p>UPDATE sprCountLinesInDBF SET before_parse=?, after_parse=? WHERE id=1</p>
 		</db>
 	</db-settings>
 

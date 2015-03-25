@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import ua.com.vza.ParseDbf.Parse;
 import ua.com.vza.XmlSettings.ParseXmlSettings;
 
 public class DBProcess {
@@ -18,26 +19,37 @@ public class DBProcess {
 	private String db_connection;
 	private String db_username;
 	private String db_password;
-	
+
 	private String selectName;
 	private String updateName;
 	private String selectSpecifications;
 	private String updateSpecifications;
 	private String selectProductType;
 	private String updateProductType;
-	
+	private String selectCountRecord;
+	private String updateCountRecord;
+
 	private Connection dbConnection;
 	private Statement preparedStatementSelect;
 	private PreparedStatement preparedStatementInsert;
-	
-	public DBProcess()
-	{
+	private PreparedStatement preparedStatementUpdate;
+
+	private Parse fromParser;
+
+	public DBProcess() {
 		this.db_connection = "";
 		this.db_driver = "";
 		this.db_password = "";
 		this.db_username = "";
 		readConfig();
-		getConnection();
+		if (dbConnection != null) {
+			try {
+				closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void readConfig() {
@@ -62,7 +74,7 @@ public class DBProcess {
 			case "DBPassword":
 				db_password = value.get(0);
 				break;
-			case "selectName":
+			case "insertName":
 				selectName = value.get(0);
 				break;
 			case "updateName":
@@ -71,14 +83,20 @@ public class DBProcess {
 			case "selectSpecifications":
 				selectSpecifications = value.get(0);
 				break;
-			case "updateSpecifications":
+			case "insertSpecifications":
 				updateSpecifications = value.get(0);
 				break;
 			case "selectProductType":
 				selectProductType = value.get(0);
 				break;
-			case "updateProductType":
+			case "insertProductType":
 				updateProductType = value.get(0);
+				break;
+			case "selectCountRecord":
+				selectCountRecord = value.get(0);
+				break;
+			case "updateCountRecord":
+				updateCountRecord = value.get(0);
 				break;
 			}
 		}
@@ -94,7 +112,7 @@ public class DBProcess {
 		}
 	}
 
-	private  void getConnection() {
+	private void getConnection() {
 		dbConnection = null;
 		loadDriver();
 		try {
@@ -105,8 +123,8 @@ public class DBProcess {
 			e.printStackTrace();
 		}
 	}
-	
-	private void closeConnection() throws SQLException{
+
+	private void closeConnection() throws SQLException {
 		if (preparedStatementInsert != null) {
 			preparedStatementInsert.close();
 		}
@@ -115,39 +133,74 @@ public class DBProcess {
 			preparedStatementSelect.close();
 		}
 
+		if (preparedStatementUpdate != null) {
+			preparedStatementUpdate.close();
+		}
+
 		if (dbConnection != null) {
 			dbConnection.close();
 		}
 	}
-	
-	 void updateQuery(String query, ArrayList<String> updData) throws SQLException{
+
+	private void updateValueOfCountRows(String query, String[] params) throws SQLException {
+		closeConnection();
 		getConnection();
-		try{
-		dbConnection.setAutoCommit(false);
-		
-		} catch (SQLException ex){
+		try {
+			dbConnection.setAutoCommit(false);
+			preparedStatementUpdate = dbConnection.prepareStatement(query);
+			for (int i = 1; i <= params.length; i++) {
+				preparedStatementUpdate.setInt(i, Integer.valueOf(params[i-1]));
+			}
+			preparedStatementUpdate.executeUpdate();
+			dbConnection.commit();
+			
+		} catch (SQLException ex) {
 			dbConnection.rollback();
 			ex.printStackTrace();
-		} finally{
+		} finally {
 			closeConnection();
 		}
-		
 	}
-	
-	public ArrayList<String> selectFromQuery(String query) throws SQLException{
+
+	private void insertValues(String query, ArrayList<String> updData)
+			throws SQLException {
+		closeConnection();
+		getConnection();
+		try {
+			dbConnection.setAutoCommit(false);
+			preparedStatementInsert = dbConnection.prepareStatement(query);
+			for (String ins : updData) {
+				preparedStatementInsert.setString(1, ins);
+				preparedStatementInsert.executeUpdate();
+			}
+			dbConnection.commit();
+		} catch (SQLException e) {
+			dbConnection.rollback();
+			e.printStackTrace();
+		}
+
+	}
+
+	private ArrayList<String> selectValues(String query, String[] namesOfFileds)
+			throws SQLException {
 		preparedStatementSelect = null;
 		ArrayList<String> tmp = new ArrayList<String>();
 		preparedStatementSelect = (Statement) dbConnection.createStatement();
 		ResultSet set1 = preparedStatementSelect.executeQuery(query);
-		while(set1.next())
-		{
-			tmp.add(set1.getString("name"));
+		while (set1.next()) {
+			if (namesOfFileds.length > 1) {
+				for (int i = 0; i < namesOfFileds.length; i++) {
+					tmp.add(set1.getString(namesOfFileds[i]));
+				}
+			} else {
+				tmp.add(set1.getString(namesOfFileds[0]));
+			}
 		}
 		closeConnection();
 		return tmp;
 	}
-	
-	public static void updateData(){
+
+	public void updateData() {
 		
 	}
 }

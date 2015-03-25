@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import ua.com.vza.DBUtils.DBProcess;
 //import java.util.regex.Matcher;
@@ -20,31 +21,40 @@ public class Probe {
 
 	public static void main(String[] args) throws IOException, SQLException {
 
-//		System.out.println("Start Regex:");
-//		long starttime = System.currentTimeMillis();
-//		
+		System.out.println("Start Regex:");
+		long starttime = System.currentTimeMillis();
+		//RDBF rdbf = new RDBF();
+		//ArrayList<String> rows = new ArrayList<String>(rdbf.getCollectionRows());
 //		Parse parses = new Parse();
 //		ArrayList<String> probeList, probelist2;
 //		probeList = new ArrayList<String>(parses.getNames(false));
+//		String[] arr = probeList.toArray(new String[probeList.size()]);
+		
 //		probelist2 = new ArrayList<String>(parses.getGosts(false));
 //
 //		for (String string : probeList) {
 //			System.out.println(string);
 //		}
-//		long endtime = System.currentTimeMillis();
-//		long totaltime = (endtime - starttime) / 1000 ;
+		CommandExecutorLinux.execute("dbf_dump --fs=\",\" /home/velenteenko/WorkDir/m1.DBF"+" > "+"/home/velenteenko/WorkDir/m111.csv");
+		long endtime = System.currentTimeMillis();
+		long totaltime = (endtime - starttime) ;
 //		System.out.println("Total before dulpicate delete lines: "+parses.getNoSortedCountRows());
 //		System.out.println("Total after dulpicate delete lines: "+parses.getCountNamedRows());
 //		System.out.println("Total lines process: "+probeList.size());
-//		System.out.println("Total time "+totaltime+" seconds.");
+		System.out.println("Total time "+totaltime+" seconds.");
 		
-		System.out.println("start connection");
-		DBProcess con = new DBProcess();
-		ArrayList<String> list = new ArrayList<String>(con.selectFromQuery("SELECT * FROM sprProductName"));
-		for (String string : list) {
-			System.out.println(string);
-		}
-		System.out.println("connection closed...");
+//		System.out.println("start connection");
+//		DBProcess con = new DBProcess();
+//		ArrayList<String> list = new ArrayList<String>(con.selectQuery("SELECT * FROM sprCountLinesInDBF", new String[]{"before_parse","after_parse"}));
+//		for (String string : list) {
+//			System.out.println(string);
+//		}
+		
+//		con.insertQuery("INSERT INTO sprProductName (name) VALUES (?)", new ArrayList<String>(Arrays.asList("Petya2","Vasya1","Dima1","Colya1")));
+//		System.out.println("Insert successfull");
+//		con.updateQuery("UPDATE sprCountLinesInDBF SET before_parse=?, after_parse=? WHERE id=1", new String[]{"0","0"});
+//		System.out.println("Update successfull");
+//		System.out.println("connection closed...");
 
 		 /// ГОСТ /////////////////////////
 //		 String g = "ГОСТ\\s?\\d+((\\-|\\:)\\d+)+";
@@ -64,6 +74,6 @@ public class Probe {
 //		 while(mm.find()){
 //		 System.out.println(mm.group());
 //		 }
-		 System.out.println("End Regex:");
+//		 System.out.println("End Regex:");
 	}
 }
