@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,12 +23,12 @@ import ua.com.vza.XmlSettings.ParseXmlSettings;
  */
 public class Parse {
 
-	private ArrayList<String> namesL;
-	private ArrayList<String> gostsL;
-	private ArrayList<String> ostL;
-	private ArrayList<String> dstuL;
-	private ArrayList<String> tuL;
-	private ArrayList<String> markL;
+	private Set<String> namesL;
+	private Set<String> gostsL;
+	private Set<String> ostL;
+	private Set<String> dstuL;
+	private Set<String> tuL;
+	private Set<String> markL;
 
 	private ArrayList<String> specifications;
 	private HashMap<String, String> kvSpecifications;
@@ -132,7 +133,7 @@ public class Parse {
 		return tmpValueRegex;
 	}
 
-	public ArrayList<String> getNames(boolean sort) {
+	public Set<String> getNames() {
 		HashSet<String> setOfString = new HashSet<String>();
 		for (String st : lines) {
 			if ((st == "") | (st == null))
@@ -155,63 +156,63 @@ public class Parse {
 				setOfString.add(st.trim());
 			}
 		}
-		namesL = new ArrayList<String>(setOfString);
-		if (sort) {
-			Collections.sort(namesL);
-		}
+		namesL = new HashSet<String>(setOfString);
+//		if (sort) {
+//			Collections.sort(namesL);;
+//		}
 		return namesL;
 	}
 
-	public ArrayList<String> getGosts(boolean sort) {
-		gostsL = new ArrayList<String>(
+	public Set<String> getGosts() {
+		gostsL = new HashSet<String>(
 				readRegexLines(getSpecifications(kvSpecifications, GOST),
 						Integer.valueOf(getSpecifications(
 								kvGroupSpecifications, GOST))));
-		if (sort) {
-			Collections.sort(gostsL);
-		}
+//		if (sort) {
+//			Collections.sort(gostsL);
+//		}
 		return gostsL;
 	}
 
-	public ArrayList<String> getOst(boolean sort) {
-		ostL = new ArrayList<String>(readRegexLines(
+	public Set<String> getOst() {
+		ostL = new HashSet<String>(readRegexLines(
 				getSpecifications(kvSpecifications, OST),
 				Integer.valueOf(getSpecifications(kvGroupSpecifications, OST))));
-		if (sort) {
-			Collections.sort(ostL);
-		}
+//		if (sort) {
+//			Collections.sort(ostL);
+//		}
 		return ostL;
 	}
 
-	public ArrayList<String> getDstu(boolean sort) {
-		dstuL = new ArrayList<String>(
+	public Set<String> getDstu() {
+		dstuL = new HashSet<String>(
 				readRegexLines(getSpecifications(kvSpecifications, DSTU),
 						Integer.valueOf(getSpecifications(
 								kvGroupSpecifications, DSTU))));
-		if (sort) {
-			Collections.sort(dstuL);
-		}
+//		if (sort) {
+//			Collections.sort(dstuL);
+//		}
 		return dstuL;
 	}
 
-	public ArrayList<String> getTu(boolean sort) {
-		tuL = new ArrayList<String>(readRegexLines(
+	public Set<String> getTu() {
+		tuL = new HashSet<String>(readRegexLines(
 				getSpecifications(kvSpecifications, TU),
 				Integer.valueOf(getSpecifications(kvGroupSpecifications, TU))));
-		if (sort) {
-			Collections.sort(tuL);
-		}
+//		if (sort) {
+//			Collections.sort(tuL);
+//		}
 		return tuL;
 	}
 
-	public ArrayList<String> getMark(boolean sort) {
-		markL = new ArrayList<String>(
+	public Set<String> getMark() {
+		markL = new HashSet<String>(
 				readRegexLines(getSpecifications(kvSpecifications, MARK),
 						Integer.valueOf(getSpecifications(
 								kvGroupSpecifications, MARK))));
-		if (sort) {
-			Collections.sort(markL);
-		}
+//		if (sort) {
+//			Collections.sort(markL);
+//		}
 		return markL;
 	}
 
