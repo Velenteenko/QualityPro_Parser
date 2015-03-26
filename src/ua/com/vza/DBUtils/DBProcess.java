@@ -7,8 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ua.com.vza.ParseDbf.Parse;
 import ua.com.vza.XmlSettings.ParseXmlSettings;
@@ -34,6 +39,8 @@ public class DBProcess {
 	private String updateProductType;
 	private String selectCountRecord;
 	private String updateCountRecord;
+
+	List<String> fieldsRecords;
 
 	private Connection dbConnection;
 	private Statement preparedStatementSelect;
@@ -122,6 +129,9 @@ public class DBProcess {
 			case "updateCountRecord":
 				updateCountRecord = value.get(0);
 				break;
+			case "fieldsRecords":
+				fieldsRecords = new ArrayList<String>(value);
+				break;
 			}
 		}
 	}
@@ -168,8 +178,8 @@ public class DBProcess {
 
 	private void updateValueOfCountRows(String query, String[] params)
 			throws SQLException {
-		closeConnection();
-		getConnection();
+		// closeConnection();
+		// getConnection();
 		try {
 			dbConnection.setAutoCommit(false);
 			preparedStatementUpdate = dbConnection.prepareStatement(query);
@@ -183,23 +193,24 @@ public class DBProcess {
 		} catch (SQLException ex) {
 			dbConnection.rollback();
 			ex.printStackTrace();
-		} finally {
-			closeConnection();
 		}
+		// finally {
+		// closeConnection();
+		// }
 	}
 
-	private void insertValues(String query, ArrayList<String> updData)
+	private void insertValues(String query, Set<String> updData)
 			throws SQLException {
-		closeConnection();
-		getConnection();
+		// closeConnection();
+		// getConnection();
 		try {
 			dbConnection.setAutoCommit(false);
 			preparedStatementInsert = dbConnection.prepareStatement(query);
 			for (String ins : updData) {
 				preparedStatementInsert.setString(1, ins);
 				preparedStatementInsert.executeUpdate();
+				dbConnection.commit();
 			}
-			dbConnection.commit();
 		} catch (SQLException e) {
 			dbConnection.rollback();
 			e.printStackTrace();
@@ -207,48 +218,100 @@ public class DBProcess {
 
 	}
 
-	public ArrayList<String> selectValues(String query, String typeFields,
+	private ArrayList<String> selectValues(String query, String typeFields,
 			String[] namesOfFileds) throws SQLException {
-		closeConnection();
-		getConnection();
-		
+		// closeConnection();
+		// getConnection();
+
 		preparedStatementSelect = null;
 		ArrayList<String> tmp = new ArrayList<String>();
-		try{
-		preparedStatementSelect = (Statement) dbConnection.createStatement();
-		ResultSet set1 = preparedStatementSelect.executeQuery(query);
-		while (set1.next()) {
-			switch (typeFields) {
-			case "string":
-				if (namesOfFileds.length > 1) {
-					for (int i = 0; i < namesOfFileds.length; i++) {
-						tmp.add(set1.getString(namesOfFileds[i]));
+		try {
+			dbConnection.setAutoCommit(false);
+			preparedStatementSelect = (Statement) dbConnection
+					.createStatement();
+			ResultSet set1 = preparedStatementSelect.executeQuery(query);
+			while (set1.next()) {
+				switch (typeFields) {
+				case "string":
+					if (namesOfFileds.length > 1) {
+						for (int i = 0; i < namesOfFileds.length; i++) {
+							tmp.add(set1.getString(namesOfFileds[i]));
+						}
+					} else {
+
+						tmp.add(set1.getString(namesOfFileds[0]));
 					}
-				} else {
+					break;
 
-					tmp.add(set1.getString(namesOfFileds[0]));
-				}
-				break;
+				case "int":
+					if (namesOfFileds.length > 1) {
+						for (int i = 0; i < namesOfFileds.length; i++) {
+							tmp.add(String.valueOf(set1
+									.getInt(namesOfFileds[i])));
+						}
+					} else {
 
-			case "int":
-				if (namesOfFileds.length > 1) {
-					for (int i = 0; i < namesOfFileds.length; i++) {
-						tmp.add(String.valueOf(set1.getInt(namesOfFileds[i])));
+						tmp.add(String.valueOf(set1.getString(namesOfFileds[0])));
 					}
-				} else {
-
-					tmp.add(String.valueOf(set1.getString(namesOfFileds[0])));
+					break;
 				}
-				break;
+			}
+
+			dbConnection.commit();
+
+		} catch (SQLException e) {
+			dbConnection.rollback();
+			e.printStackTrace();
+			return new ArrayList<String>();
+		}
+		// closeConnection();
+		return tmp;
+	}
+	
+	private Set<String> findNewRecords(Set<String> parseList, Set<String> dbList){
+		final Set<String> setToReturn = new HashSet<String>();
+		Iterator<String> itr = parseList.iterator();
+		while(itr.hasNext())
+		{
+			String rec = itr.next();
+			if (dbList.add(rec)) {
+				setToReturn.add(rec);
 			}
 		}
-		}catch()
-		closeConnection();
-		return tmp;
+		return setToReturn;
 	}
 
 	public void updateData() throws SQLException {
 		closeConnection();
 		getConnection();
+
+		Set<String> l_names = new HashSet<String>();
+		Set<String> l_makrs = new HashSet<String>();
+		Set<String> l_gost = new HashSet<String>();
+		Set<String> l_ost = new HashSet<String>();
+		Set<String> l_tu = new HashSet<String>();
+		Set<String> l_dstu = new HashSet<String>();
+		
+
+		List<String> l_values = new ArrayList<String>();
+		Set<String> ll = new HashSet<String>();
+		ll.addAll(selectValues(selectCountRecord, "int",
+				fieldsRecords.toArray(new String[fieldsRecords.size()])));
+//		for (String string : l_values) {
+//			System.out.println(string);
+//		}
+		// this is a fix array size
+		int names = Integer.valueOf(l_values.get(0));
+		int marks = Integer.valueOf(l_values.get(1));
+		int gost = Integer.valueOf(l_values.get(2));
+		int ost = Integer.valueOf(l_values.get(3));
+		int tu = Integer.valueOf(l_values.get(4));
+		int dstu = Integer.valueOf(l_values.get(5));
+		//
+//		System.out.println(names+";"+marks+";"+gost+";"+ost+";"+tu+";"+dstu);
+//		fromParser = new Parse();
+		
+		
+		closeConnection();
 	}
 }

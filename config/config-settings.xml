@@ -68,59 +68,68 @@
 			<p>com.mysql.jdbc.Driver</p>
 		</db>
 		<db name="DBConnectionString">
-			<p>jdbc:mysql://127.0.0.1:3306/QualityProducts</p>
+			<p>jdbc:mysql://192.168.31.200:3306/QualityOfProducts</p>
 		</db>
 		<db name="DBUserName">
-			<p>root</p>
+			<p>username</p>
 		</db>
 		<db name="DBPassword">
-			<p>root</p>
+			<p>adminpass</p>
 		</db>
 		<!-- ///////////////////////////////// -->
 		<db name="selectName">
-			<p>SELECT (name) FROM sprProductName</p>
+			<p>SELECT name FROM sprProductName</p>
 		</db>
 		<db name="insertName">
-			<p>INSERT INTO sprProductName (name) VALUES (?)</p>
+			<p>INSERT INTO sprProductName name VALUES (?)</p>
 		</db>
 		<db name="selectSpGOST">
 			<p>SELECT (gost) FROM sprStandart</p>
 		</db>
 		<db name="insertSpGOST">
-			<p>INSERT INTO sprStandart (gost) VALUES (?)</p>
+			<p>INSERT INTO sprStandart gost VALUES (?)</p>
 		</db>
 		<db name="selectSpOST">
-			<p>SELECT (ost) FROM sprStandart</p>
+			<p>SELECT ost FROM sprStandart</p>
 		</db>
 		<db name="insertSpOST">
-			<p>INSERT INTO sprStandart (ost) VALUES (?)</p>
+			<p>INSERT INTO sprStandart ost VALUES (?)</p>
 		</db>
 		<db name="selectSpTU">
-			<p>SELECT (tu) FROM sprStandart</p>
+			<p>SELECT tu FROM sprStandart</p>
 		</db>
 		<db name="insertSpTU">
-			<p>INSERT INTO sprStandart (tu) VALUES (?)</p>
+			<p>INSERT INTO sprStandart tu VALUES (?)</p>
 		</db>
 		<db name="selectSpDSTU">
-			<p>SELECT (DSTU) FROM sprStandart</p>
+			<p>SELECT dstu FROM sprStandart</p>
 		</db>
 		<db name="insertSpDSTU">
-			<p>INSERT INTO sprStandart (DSTU) VALUES (?)</p>
+			<p>INSERT INTO sprStandart dstu VALUES (?)</p>
 		</db>
 		<db name="selectProductType">
-			<p>SELECT (name) FROM sprProductType</p>
+			<p>SELECT name FROM sprProductType</p>
 		</db>
 		<db name="insertProductType">
-			<p>INSERT INTO sprProductType (name) VALUES (?)</p>
+			<p>INSERT INTO sprProductType name VALUES (?)</p>
 		</db>
 		<db name="selectCountRecord">
 			<p>SELECT
-				(af_parseName,af_parseMark,af_parseGOST,af_parseOST,af_parseTU,
-				af_parseDSTU) FROM sprCountLinesInDBF WHERE id=1
+				af_parseName,af_parseMark,af_parseGOST,af_parseOST,af_parseTU,
+				af_parseDSTU FROM sprCountLinesInDBF WHERE id=1
 			</p>
 		</db>
+		<db name="fieldsRecords">
+			<p>af_parseName</p>
+			<p>af_parseMark</p>
+			<p>af_parseGOST</p>
+			<p>af_parseOST</p>
+			<p>af_parseTU</p>
+			<p>af_parseDSTU</p>
+		</db>
 		<db name="updateCountRecord">
-			<p>UPDATE sprCountLinesInDBF SET gost=?, ost=?, tu=?, dstu=? WHERE
+			<p>UPDATE sprCountLinesInDBF SET af_parseName=?, af_parseMark=?,
+				af_parseGOST=?, af_parseOST=?, af_parseTU=?, af_parseDSTU=? WHERE
 				id=1
 			</p>
 		</db>

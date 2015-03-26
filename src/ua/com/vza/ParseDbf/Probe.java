@@ -10,6 +10,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import ua.com.vza.DBUtils.DBProcess;
 //import java.util.regex.Matcher;
@@ -44,12 +48,29 @@ public class Probe {
 //		System.out.println("Total time "+totaltime+" seconds.");
 		
 //		System.out.println("start connection");
-		DBProcess con = new DBProcess();
-		ArrayList<String> list = new ArrayList<String>(con.selectValues("SELECT af_parseName,af_parseMark,af_parseGOST,af_parseOST,af_parseTU,af_parseDSTU FROM sprCountLinesInDBF WHERE id=1",
-				"int", new String[]{"af_parseName","af_parseMark","af_parseGOST","af_parseOST","af_parseTU","af_parseDSTU"}));
-		for (String string : list) {
-			System.out.println(string);
+//		DBProcess con = new DBProcess();
+//		con.updateData();
+		Set<String> db = new HashSet<String>();
+		db.add("1");
+		db.add("2");
+		db.add("3");
+		db.add("4");
+		Set<String> parse = new HashSet<String>();
+		parse.add("1");
+		parse.add("2");
+		parse.add("3");
+		parse.add("4");
+		parse.add("5");
+		
+		Set<String> res= new HashSet<String>(findNewRecords(parse, db));
+		for (String string : res) {
+			System.out.println("New: "+string);
 		}
+//		ArrayList<String> list = new ArrayList<String>(con.selectValues("SELECT af_parseName,af_parseMark,af_parseGOST,af_parseOST,af_parseTU,af_parseDSTU FROM sprCountLinesInDBF WHERE id=1",
+//				"int", new String[]{"af_parseName","af_parseMark","af_parseGOST","af_parseOST","af_parseTU","af_parseDSTU"}));
+//		for (String string : list) {
+//			System.out.println(string);
+//		}
 		
 //		con.insertQuery("INSERT INTO sprProductName (name) VALUES (?)", new ArrayList<String>(Arrays.asList("Petya2","Vasya1","Dima1","Colya1")));
 //		System.out.println("Insert successfull");
@@ -76,5 +97,17 @@ public class Probe {
 //		 System.out.println(mm.group());
 //		 }
 		 System.out.println("End:");
+	}
+	private static Set<String> findNewRecords(Set<String> parseList, Set<String> dbList){
+		final Set<String> setToReturn = new HashSet<String>();
+		Iterator<String> itr = parseList.iterator();
+		while(itr.hasNext())
+		{
+			String rec = itr.next();
+			if (dbList.add(rec)) {
+				setToReturn.add(rec);
+			}
+		}
+		return setToReturn;
 	}
 }
