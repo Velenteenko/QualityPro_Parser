@@ -18,7 +18,7 @@ import java.util.Set;
 import ua.com.vza.ParseDbf.Parse;
 import ua.com.vza.XmlSettings.ParseXmlSettings;
 
-public class DBProcess {
+public class DBParseProcess {
 
 	private String db_driver;
 	private String db_connection;
@@ -40,7 +40,7 @@ public class DBProcess {
 	private String selectCountRecord;
 	private String updateCountRecord;
 
-	List<String> fieldsRecords;
+	private List<String> fieldsRecords;
 
 	private Connection dbConnection;
 	private Statement preparedStatementSelect;
@@ -49,7 +49,7 @@ public class DBProcess {
 
 	private Parse fromParser;
 
-	public DBProcess() {
+	public DBParseProcess() {
 		this.db_connection = "";
 		this.db_driver = "";
 		this.db_password = "";

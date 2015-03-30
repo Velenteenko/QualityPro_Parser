@@ -97,13 +97,22 @@ public class Probe {
 		// System.out.println(mm.group());
 		// }
 	
-		ReadDBFDB rdbf = new ReadDBFDB();
-		List<String> lists = new ArrayList<String>(rdbf.getCollectionRows());
+//		ReadDBFDB rdbf = new ReadDBFDB();
+//		List<String> lists = new ArrayList<String>(rdbf.getCollectionRows());
 //		for (String string : lists) {
 //			System.out.println(string);
 //		}
-
-		System.out.println("Total lines: " + rdbf.getCountCollectionsRows());
+//		System.out.println("Total lines: " + rdbf.getCountCollectionsRows());
+		
+		Parse p = new Parse(false);
+		List<String> name = new ArrayList<String>(p.getNames());
+		List<String> mark = new ArrayList<String>(p.getMark());
+		List<String> gost = new ArrayList<String>(p.getGosts());
+		List<String> ost = new ArrayList<String>(p.getOst());
+		List<String> tu = new ArrayList<String>(p.getTu());
+		List<String> dstu = new ArrayList<String>(p.getDstu());
+		System.out.println("Job done!\nAll data are parse!!!");
+		
 		 long endtime = System.currentTimeMillis();
 		 long totaltime = (endtime - starttime) ;
 		 System.out.println("Total time "+totaltime+" seconds.");

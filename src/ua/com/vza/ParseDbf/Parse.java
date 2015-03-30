@@ -29,6 +29,7 @@ public class Parse {
 	private Set<String> dstuL;
 	private Set<String> tuL;
 	private Set<String> markL;
+
 	private boolean readOptions;
 
 	private ArrayList<String> specifications;
@@ -44,10 +45,16 @@ public class Parse {
 
 	private ReadDBFCSV readCSVFLines;
 	private ReadDBFDB readDBLines;
+
 	private ArrayList<String> lines;
 
+//	public Parse() {
+//		readConfig();
+//	}
+
 	public Parse(boolean readWithCSV) {
-		
+
+//		this();
 		this.readOptions = readWithCSV;
 
 		if (readOptions) {
@@ -59,25 +66,37 @@ public class Parse {
 				e.printStackTrace();
 			}
 		} else {
-			//// read with DBF Driver
+			// // read with DBF Driver
+			readConfig();
+			readDBLines = new ReadDBFDB();
+			lines = new ArrayList<String>(readDBLines.getCollectionRows());
 		}
 	}
 
-	public Parse(Boolean readWithCSV, String pathToFile) {
-		
-		this.readOptions = readWithCSV;
-		
-		if (readOptions) {
-			readConfig();
-			readCSVFLines = new ReadDBFCSV(pathToFile);
-			try {
-				lines = new ArrayList<String>(readCSVFLines.getCollectionRows());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else{
-			/// read with DBF Driver
+	public Parse(String pathToTargetCSVFile) {
+
+		// this.readOptions = readWithCSV;
+
+		// if (readOptions) {
+		readConfig();
+//		this();
+		readCSVFLines = new ReadDBFCSV(pathToTargetCSVFile);
+		try {
+			lines = new ArrayList<String>(readCSVFLines.getCollectionRows());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		// } else{
+		// /// read with DBF Driver
+		// readDBLines = new ReadDBFDB();
+		// lines = new ArrayList<String>(readDBLines.getCollectionRows());
+		// }
+	}
+
+	public Parse(String pathToFileTableDir, String smbTargetFile) {
+		 readConfig();
+		 readDBLines = new ReadDBFDB();
+		 lines = new ArrayList<String>(readDBLines.getCollectionRows());
 	}
 
 	private void readConfig() {
@@ -118,6 +137,8 @@ public class Parse {
 		for (int i = 0; i < lines.size(); i++) {
 			// String retSt = "";
 			String line = lines.get(i);
+			if((line == "") | (line==null))
+				continue;
 			Pattern pp = Pattern.compile(pattern);
 			Matcher mm = pp.matcher(line);
 			if (group <= 0) {
@@ -173,9 +194,6 @@ public class Parse {
 			}
 		}
 		namesL = new HashSet<String>(setOfString);
-		// if (sort) {
-		// Collections.sort(namesL);;
-		// }
 		return namesL;
 	}
 
@@ -184,9 +202,6 @@ public class Parse {
 				readRegexLines(getSpecifications(kvSpecifications, GOST),
 						Integer.valueOf(getSpecifications(
 								kvGroupSpecifications, GOST))));
-		// if (sort) {
-		// Collections.sort(gostsL);
-		// }
 		return gostsL;
 	}
 
@@ -194,9 +209,6 @@ public class Parse {
 		ostL = new HashSet<String>(readRegexLines(
 				getSpecifications(kvSpecifications, OST),
 				Integer.valueOf(getSpecifications(kvGroupSpecifications, OST))));
-		// if (sort) {
-		// Collections.sort(ostL);
-		// }
 		return ostL;
 	}
 
@@ -205,9 +217,6 @@ public class Parse {
 				readRegexLines(getSpecifications(kvSpecifications, DSTU),
 						Integer.valueOf(getSpecifications(
 								kvGroupSpecifications, DSTU))));
-		// if (sort) {
-		// Collections.sort(dstuL);
-		// }
 		return dstuL;
 	}
 
@@ -215,9 +224,6 @@ public class Parse {
 		tuL = new HashSet<String>(readRegexLines(
 				getSpecifications(kvSpecifications, TU),
 				Integer.valueOf(getSpecifications(kvGroupSpecifications, TU))));
-		// if (sort) {
-		// Collections.sort(tuL);
-		// }
 		return tuL;
 	}
 
@@ -226,9 +232,6 @@ public class Parse {
 				readRegexLines(getSpecifications(kvSpecifications, MARK),
 						Integer.valueOf(getSpecifications(
 								kvGroupSpecifications, MARK))));
-		// if (sort) {
-		// Collections.sort(markL);
-		// }
 		return markL;
 	}
 
@@ -237,6 +240,10 @@ public class Parse {
 	}
 
 	public int getNoSortedCountRows() {
-		return readCSVFLines.getCountNoSortedLines();
+		if (readOptions) {
+			return readCSVFLines.getCountNoSortedLines();
+		} else {
+			return readDBLines.getCountCollectionsRows();
+		}
 	}
 }

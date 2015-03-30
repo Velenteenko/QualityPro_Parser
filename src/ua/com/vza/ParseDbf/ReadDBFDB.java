@@ -50,6 +50,12 @@ public class ReadDBFDB {
 		loadDriver();
 		this.countCollectionsRows = 0;
 	}
+	
+	public ReadDBFDB(String pathToFileTableDir, String smbTargetFile){
+		this();
+		this.dbConnectionString = pathToFileTableDir;
+		this.dbSMBPathToBase = smbTargetFile;
+	}
 
 	private void deleteTempFiles() {
 		File file;
