@@ -18,7 +18,7 @@ import com.opencsv.CSVReader;
 import ua.com.vza.XmlSettings.ParseXmlSettings;
 import jcifs.smb.SmbFile;
 
-public class RDBF {
+public class ReadDBFCSV {
 
 	private String pathToBase;
 	private String tmpFileName;
@@ -28,12 +28,14 @@ public class RDBF {
 	private int collumnIndex;
 	private int countSortedLines;
 	private int countNoSortedLines;
+//	private boolean withCSV;
 
 	private ArrayList<String> collectionRows;
 	private CSVReader reader;
 
-	public RDBF() {
+	public ReadDBFCSV() {
 		readConfig();
+//		this.withCSV = withCSV;
 		try {
 			stream2file();
 		} catch (IOException e) {
@@ -44,7 +46,7 @@ public class RDBF {
 		this.countNoSortedLines = 0;
 	}
 
-	public RDBF(String pahToBase) {
+	public ReadDBFCSV(String pahToBase) {
 		readConfig();
 		this.pathToBase = pahToBase;
 		this.countSortedLines = 0;
@@ -52,7 +54,7 @@ public class RDBF {
 
 	}
 
-	public RDBF(String pahToBase, int collumnIndex) {
+	public ReadDBFCSV(String pahToBase, int collumnIndex) {
 		this(pahToBase);
 		this.collumnIndex = collumnIndex;
 	}
@@ -85,8 +87,10 @@ public class RDBF {
 			}
 			os.close();
 			is.close();
+//			if(withCSV){
 			CommandExecutorLinux.execute("dbf_dump --fs=\",\" " + tmpDirName
 					+ tmpFileName + " > " + tmpDirName + tmpConvertFileName);
+//			}
 //		}
 	}
 

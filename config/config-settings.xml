@@ -20,7 +20,7 @@
 				getCollumnIndex() -->
 			<p>2</p>
 		</field>
-		<field name="charset">
+		<field name="charSet">
 			<p>CP1251</p>
 		</field>
 	</table-settings>
@@ -64,6 +64,18 @@
 	</text-regex-settings>
 
 	<db-settings>
+		<db name="DBFDriverName">
+			<p>com.hxtt.sql.dbf.DBFDriver</p>
+		</db>
+		<db name="DBFConnectionString">
+			<p>jdbc:dbf:/./tmpdbf</p>
+		</db>
+		<db name="DBFQuery">
+			<p>SELECT MN FROM m1</p>
+		</db>
+		<db name="DBFCollumnName">
+			<p>MN</p>
+		</db>
 		<db name="DBDriver">
 			<p>com.mysql.jdbc.Driver</p>
 		</db>

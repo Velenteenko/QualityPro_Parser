@@ -29,6 +29,7 @@ public class Parse {
 	private Set<String> dstuL;
 	private Set<String> tuL;
 	private Set<String> markL;
+	private boolean readOptions;
 
 	private ArrayList<String> specifications;
 	private HashMap<String, String> kvSpecifications;
@@ -41,26 +42,41 @@ public class Parse {
 	private final String MARK = "mark";
 	// private int countNamedRows;
 
-	private RDBF readDBFLines;
+	private ReadDBFCSV readCSVFLines;
+	private ReadDBFDB readDBLines;
 	private ArrayList<String> lines;
 
-	public Parse() {
-		readConfig();
-		readDBFLines = new RDBF();
-		try {
-			lines = new ArrayList<String>(readDBFLines.getCollectionRows());
-		} catch (IOException e) {
-			e.printStackTrace();
+	public Parse(boolean readWithCSV) {
+		
+		this.readOptions = readWithCSV;
+
+		if (readOptions) {
+			readConfig();
+			readCSVFLines = new ReadDBFCSV();
+			try {
+				lines = new ArrayList<String>(readCSVFLines.getCollectionRows());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			//// read with DBF Driver
 		}
 	}
 
-	public Parse(String pathToFile) {
-		readConfig();
-		readDBFLines = new RDBF(pathToFile);
-		try {
-			lines = new ArrayList<String>(readDBFLines.getCollectionRows());
-		} catch (IOException e) {
-			e.printStackTrace();
+	public Parse(Boolean readWithCSV, String pathToFile) {
+		
+		this.readOptions = readWithCSV;
+		
+		if (readOptions) {
+			readConfig();
+			readCSVFLines = new ReadDBFCSV(pathToFile);
+			try {
+				lines = new ArrayList<String>(readCSVFLines.getCollectionRows());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else{
+			/// read with DBF Driver
 		}
 	}
 
@@ -157,9 +173,9 @@ public class Parse {
 			}
 		}
 		namesL = new HashSet<String>(setOfString);
-//		if (sort) {
-//			Collections.sort(namesL);;
-//		}
+		// if (sort) {
+		// Collections.sort(namesL);;
+		// }
 		return namesL;
 	}
 
@@ -168,9 +184,9 @@ public class Parse {
 				readRegexLines(getSpecifications(kvSpecifications, GOST),
 						Integer.valueOf(getSpecifications(
 								kvGroupSpecifications, GOST))));
-//		if (sort) {
-//			Collections.sort(gostsL);
-//		}
+		// if (sort) {
+		// Collections.sort(gostsL);
+		// }
 		return gostsL;
 	}
 
@@ -178,9 +194,9 @@ public class Parse {
 		ostL = new HashSet<String>(readRegexLines(
 				getSpecifications(kvSpecifications, OST),
 				Integer.valueOf(getSpecifications(kvGroupSpecifications, OST))));
-//		if (sort) {
-//			Collections.sort(ostL);
-//		}
+		// if (sort) {
+		// Collections.sort(ostL);
+		// }
 		return ostL;
 	}
 
@@ -189,9 +205,9 @@ public class Parse {
 				readRegexLines(getSpecifications(kvSpecifications, DSTU),
 						Integer.valueOf(getSpecifications(
 								kvGroupSpecifications, DSTU))));
-//		if (sort) {
-//			Collections.sort(dstuL);
-//		}
+		// if (sort) {
+		// Collections.sort(dstuL);
+		// }
 		return dstuL;
 	}
 
@@ -199,9 +215,9 @@ public class Parse {
 		tuL = new HashSet<String>(readRegexLines(
 				getSpecifications(kvSpecifications, TU),
 				Integer.valueOf(getSpecifications(kvGroupSpecifications, TU))));
-//		if (sort) {
-//			Collections.sort(tuL);
-//		}
+		// if (sort) {
+		// Collections.sort(tuL);
+		// }
 		return tuL;
 	}
 
@@ -210,9 +226,9 @@ public class Parse {
 				readRegexLines(getSpecifications(kvSpecifications, MARK),
 						Integer.valueOf(getSpecifications(
 								kvGroupSpecifications, MARK))));
-//		if (sort) {
-//			Collections.sort(markL);
-//		}
+		// if (sort) {
+		// Collections.sort(markL);
+		// }
 		return markL;
 	}
 
@@ -221,6 +237,6 @@ public class Parse {
 	}
 
 	public int getNoSortedCountRows() {
-		return readDBFLines.getCountNoSortedLines();
+		return readCSVFLines.getCountNoSortedLines();
 	}
 }
