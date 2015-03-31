@@ -1,4 +1,4 @@
-package ua.com.vza.XmlSettings;
+package ua.com.vza.velenteenko.XmlSettings;
 
 import java.util.ArrayList;
 import java.util.HashMap;

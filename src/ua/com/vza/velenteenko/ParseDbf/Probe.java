@@ -1,4 +1,4 @@
-package ua.com.vza.ParseDbf;
+package ua.com.vza.velenteenko.ParseDbf;
 
 import java.io.IOException;
 //import java.sql.Connection;
@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import ua.com.vza.velenteenko.DBUtils.DBParseProcess;
 
 //import ua.com.vza.DBUtils.DBProcess;
 //import java.util.regex.Matcher;
@@ -104,18 +106,24 @@ public class Probe {
 //		}
 //		System.out.println("Total lines: " + rdbf.getCountCollectionsRows());
 		
-		Parse p = new Parse(false);
-		List<String> name = new ArrayList<String>(p.getNames());
-		List<String> mark = new ArrayList<String>(p.getMark());
-		List<String> gost = new ArrayList<String>(p.getGosts());
-		List<String> ost = new ArrayList<String>(p.getOst());
-		List<String> tu = new ArrayList<String>(p.getTu());
-		List<String> dstu = new ArrayList<String>(p.getDstu());
+//		Parse p = new Parse(false);
+//		List<String> name = new ArrayList<String>(p.getNames());
+//		List<String> mark = new ArrayList<String>(p.getMark());
+//		List<String> gost = new ArrayList<String>(p.getGosts());
+//		List<String> ost = new ArrayList<String>(p.getOst());
+//		List<String> tu = new ArrayList<String>(p.getTu());
+//		List<String> dstu = new ArrayList<String>(p.getDstu());
+		 DBParseProcess process = new DBParseProcess();
+		 process.updateData();
+		 System.out.println("--------------\nDbProcess done!");
 		System.out.println("Job done!\nAll data are parse!!!");
 		
 		 long endtime = System.currentTimeMillis();
 		 long totaltime = (endtime - starttime) ;
-		 System.out.println("Total time "+totaltime+" seconds.");
+//		 System.out.println("Total time "+totaltime+" seconds.");
+//		 DBParseProcess process = new DBParseProcess();
+//		 process.updateData();
+//		 System.out.println("--------------\nDbProcess done!");
 		System.out.println("End:");
 	}
 

@@ -1,4 +1,4 @@
-package ua.com.vza.ParseDbf;
+package ua.com.vza.velenteenko.ParseDbf;
 
 interface MinMax<T extends Comparable<T>> {
 	public T min();

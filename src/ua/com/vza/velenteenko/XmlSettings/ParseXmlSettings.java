@@ -1,4 +1,4 @@
-package ua.com.vza.XmlSettings;
+package ua.com.vza.velenteenko.XmlSettings;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ua.com.vza.DBUtils;
+package ua.com.vza.velenteenko.DBUtils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,16 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
-import ua.com.vza.ParseDbf.Parse;
-import ua.com.vza.XmlSettings.ParseXmlSettings;
+import ua.com.vza.velenteenko.ParseDbf.Parse;
+import ua.com.vza.velenteenko.XmlSettings.ParseXmlSettings;
 
 public class DBParseProcess {
 
@@ -24,6 +24,7 @@ public class DBParseProcess {
 	private String db_connection;
 	private String db_username;
 	private String db_password;
+	private String db_charSet;
 
 	private String selectName;
 	private String updateName;
@@ -43,7 +44,7 @@ public class DBParseProcess {
 	private List<String> fieldsRecords;
 
 	private Connection dbConnection;
-	private Statement preparedStatementSelect;
+	private Statement StatementSelect;
 	private PreparedStatement preparedStatementInsert;
 	private PreparedStatement preparedStatementUpdate;
 
@@ -57,12 +58,13 @@ public class DBParseProcess {
 		readConfig();
 		if (dbConnection != null) {
 			try {
-				closeConnection();
+				closeConnections();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		loadDriver();
 	}
 
 	private void readConfig() {
@@ -87,10 +89,13 @@ public class DBParseProcess {
 			case "DBPassword":
 				db_password = value.get(0);
 				break;
-			case "insertName":
+			case "charSetEncoding":
+				db_charSet = value.get(0);
+				break;
+			case "selectName":
 				selectName = value.get(0);
 				break;
-			case "updateName":
+			case "insertName":
 				updateName = value.get(0);
 				break;
 			case "selectSpGOST":
@@ -140,7 +145,7 @@ public class DBParseProcess {
 		try {
 			Class.forName(db_driver);
 		} catch (ClassNotFoundException e) {
-			System.out.println("Where is your MySQL JDBC Driver?");
+			// System.out.println("Where is your MySQL JDBC Driver?");
 			e.printStackTrace();
 			return;
 		}
@@ -148,23 +153,25 @@ public class DBParseProcess {
 
 	private void getConnection() {
 		dbConnection = null;
-		loadDriver();
 		try {
-			dbConnection = DriverManager.getConnection(db_connection,
-					db_username, db_password);
+			Properties prop = new Properties();
+			prop.setProperty("characterEncoding", db_charSet);
+			prop.setProperty("user", db_username);
+			prop.setProperty("password", db_password);
+			dbConnection = DriverManager.getConnection(db_connection, prop);
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		}
 	}
 
-	private void closeConnection() throws SQLException {
+	private void closeConnections() throws SQLException {
 		if (preparedStatementInsert != null) {
 			preparedStatementInsert.close();
 		}
 
-		if (preparedStatementSelect != null) {
-			preparedStatementSelect.close();
+		if (StatementSelect != null) {
+			StatementSelect.close();
 		}
 
 		if (preparedStatementUpdate != null) {
@@ -176,16 +183,15 @@ public class DBParseProcess {
 		}
 	}
 
-	private void updateValueOfCountRows(String query, String[] params)
+	private void updateValueOfCountRows(String query, Integer[] paramValues)
 			throws SQLException {
 		// closeConnection();
 		// getConnection();
 		try {
 			dbConnection.setAutoCommit(false);
 			preparedStatementUpdate = dbConnection.prepareStatement(query);
-			for (int i = 1; i <= params.length; i++) {
-				preparedStatementUpdate.setInt(i,
-						Integer.valueOf(params[i - 1]));
+			for (int i = 1; i <= paramValues.length; i++) {
+				preparedStatementUpdate.setInt(i, paramValues[i - 1]);
 			}
 			preparedStatementUpdate.executeUpdate();
 			dbConnection.commit();
@@ -204,9 +210,9 @@ public class DBParseProcess {
 		// closeConnection();
 		// getConnection();
 		try {
-			dbConnection.setAutoCommit(false);
-			preparedStatementInsert = dbConnection.prepareStatement(query);
 			for (String ins : updData) {
+				dbConnection.setAutoCommit(false);
+				preparedStatementInsert = dbConnection.prepareStatement(query);
 				preparedStatementInsert.setString(1, ins);
 				preparedStatementInsert.executeUpdate();
 				dbConnection.commit();
@@ -218,21 +224,20 @@ public class DBParseProcess {
 
 	}
 
-	private ArrayList<String> selectValues(String query, String typeFields,
+	private List<String> selectValues(String query, String typeFields,
 			String[] namesOfFileds) throws SQLException {
 		// closeConnection();
 		// getConnection();
 
-		preparedStatementSelect = null;
+		StatementSelect = null;
 		ArrayList<String> tmp = new ArrayList<String>();
 		try {
 			dbConnection.setAutoCommit(false);
-			preparedStatementSelect = (Statement) dbConnection
-					.createStatement();
-			ResultSet set1 = preparedStatementSelect.executeQuery(query);
+			StatementSelect = (Statement) dbConnection.createStatement();
+			ResultSet set1 = StatementSelect.executeQuery(query);
 			while (set1.next()) {
 				switch (typeFields) {
-				case "string":
+				case "String":
 					if (namesOfFileds.length > 1) {
 						for (int i = 0; i < namesOfFileds.length; i++) {
 							tmp.add(set1.getString(namesOfFileds[i]));
@@ -243,7 +248,7 @@ public class DBParseProcess {
 					}
 					break;
 
-				case "int":
+				case "Integer":
 					if (namesOfFileds.length > 1) {
 						for (int i = 0; i < namesOfFileds.length; i++) {
 							tmp.add(String.valueOf(set1
@@ -267,12 +272,11 @@ public class DBParseProcess {
 		// closeConnection();
 		return tmp;
 	}
-	
-	private Set<String> findNewRecords(Set<String> parseList, Set<String> dbList){
+
+	private Set<String> findNewRecords(Set<String> parseList, Set<String> dbList) {
 		final Set<String> setToReturn = new HashSet<String>();
 		Iterator<String> itr = parseList.iterator();
-		while(itr.hasNext())
-		{
+		while (itr.hasNext()) {
 			String rec = itr.next();
 			if (dbList.add(rec)) {
 				setToReturn.add(rec);
@@ -281,37 +285,82 @@ public class DBParseProcess {
 		return setToReturn;
 	}
 
+	// private void checkTable(int countRows, Set<String> dataFromParse){
+	//
+	// }
+
 	public void updateData() throws SQLException {
-		closeConnection();
+		closeConnections();
 		getConnection();
-
-		Set<String> l_names = new HashSet<String>();
-		Set<String> l_makrs = new HashSet<String>();
-		Set<String> l_gost = new HashSet<String>();
-		Set<String> l_ost = new HashSet<String>();
-		Set<String> l_tu = new HashSet<String>();
-		Set<String> l_dstu = new HashSet<String>();
-		
-
-		List<String> l_values = new ArrayList<String>();
-		Set<String> ll = new HashSet<String>();
-		ll.addAll(selectValues(selectCountRecord, "int",
+		List<String> dbFieldRecordsValues = new ArrayList<String>(selectValues(
+				selectCountRecord, "Integer",
 				fieldsRecords.toArray(new String[fieldsRecords.size()])));
-//		for (String string : l_values) {
-//			System.out.println(string);
-//		}
 		// this is a fix array size
-		int names = Integer.valueOf(l_values.get(0));
-		int marks = Integer.valueOf(l_values.get(1));
-		int gost = Integer.valueOf(l_values.get(2));
-		int ost = Integer.valueOf(l_values.get(3));
-		int tu = Integer.valueOf(l_values.get(4));
-		int dstu = Integer.valueOf(l_values.get(5));
-		//
-//		System.out.println(names+";"+marks+";"+gost+";"+ost+";"+tu+";"+dstu);
-//		fromParser = new Parse();
-		
-		
-		closeConnection();
+		Integer[] paramsUpdateCounter = new Integer[] {
+				Integer.valueOf(dbFieldRecordsValues.get(0)),//name
+				Integer.valueOf(dbFieldRecordsValues.get(1)),//mark
+				Integer.valueOf(dbFieldRecordsValues.get(2)),//gost
+				Integer.valueOf(dbFieldRecordsValues.get(3)),//ost
+				Integer.valueOf(dbFieldRecordsValues.get(4)),//tu
+				Integer.valueOf(dbFieldRecordsValues.get(5)) };//dstu
+		////////////////////////////
+
+		fromParser = new Parse(false);
+		// Name
+//		Set<String> fromParse = new HashSet<String>(fromParser.getNames());
+//		if (fromParse.size() > paramsUpdateCounter[0]) {
+//			Set<String> fromDB = new HashSet<String>(selectValues(selectName,
+//					"String", new String[] { "name" }));
+//			insertValues(updateName, findNewRecords(fromParse, fromDB));
+//			paramsUpdateCounter[0] = fromParse.size();
+//			// cNewName = fromParse.size();
+//		}
+
+		// Mark
+		Set<String> fromParse = new HashSet<String>(fromParser.getMark());
+		if (fromParse.size() > paramsUpdateCounter[1]) {
+			Set<String> fromDB = new HashSet<String>(selectValues(
+					selectProductType, "String", new String[] { "name" }));
+			insertValues(updateProductType, findNewRecords(fromParse, fromDB));
+			paramsUpdateCounter[1] = fromDB.size();
+		}
+
+		// GOST
+//		fromParse = new HashSet<String>(fromParser.getGosts());
+//		if (fromParse.size() > paramsUpdateCounter[2]) {
+//			Set<String> fromDB = new HashSet<String>(selectValues(selectSpGOST,
+//					"String", new String[] { "gost" }));
+//			insertValues(updateSpGOST, findNewRecords(fromParse, fromDB));
+//			paramsUpdateCounter[2] = fromDB.size();
+//		}
+
+		// OST
+//		fromParse = new HashSet<String>(fromParser.getOst());
+//		if (fromParse.size() > paramsUpdateCounter[3]) {
+//			Set<String> fromDB = new HashSet<String>(selectValues(selectSpOST,
+//					"String", new String[] { "ost" }));
+//			insertValues(updateSpOST, findNewRecords(fromParse, fromDB));
+//			paramsUpdateCounter[3] = fromDB.size();
+//		}
+
+		// TU
+//		fromParse = new HashSet<String>(fromParser.getTu());
+//		if (fromParse.size() > paramsUpdateCounter[4]) {
+//			Set<String> fromDB = new HashSet<String>(selectValues(selectSpTU,
+//					"String", new String[] { "tu" }));
+//			insertValues(updateSpTU, findNewRecords(fromParse, fromDB));
+//			paramsUpdateCounter[4] = fromDB.size();
+//		}
+
+		// DSTU
+//		fromParse = new HashSet<String>(fromParser.getDstu());
+//		if (fromParse.size() > paramsUpdateCounter[5]) {
+//			Set<String> fromDB = new HashSet<String>(selectValues(selectSpDSTU,
+//					"String", new String[] { "dstu" }));
+//			insertValues(updateSpDSTU, findNewRecords(fromParse, fromDB));
+//			paramsUpdateCounter[5] = fromDB.size();
+//		}
+//		updateValueOfCountRows(updateCountRecord, paramsUpdateCounter);
+		closeConnections();
 	}
 }

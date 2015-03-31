@@ -1,4 +1,4 @@
-package ua.com.vza.ParseDbf;
+package ua.com.vza.velenteenko.ParseDbf;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import jcifs.smb.SmbFile;
-import ua.com.vza.XmlSettings.ParseXmlSettings;
+import ua.com.vza.velenteenko.XmlSettings.ParseXmlSettings;
 
 public class ReadDBFDB {
 

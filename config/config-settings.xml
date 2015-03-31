@@ -88,6 +88,9 @@
 		<db name="DBPassword">
 			<p>adminpass</p>
 		</db>
+		<db name="charSetEncoding">
+			<p>CP1251</p>
+		</db>
 		<!-- ///////////////////////////////// -->
 		<db name="selectName">
 			<p>SELECT name FROM sprProductName</p>
@@ -118,6 +121,9 @@
 		</db>
 		<db name="insertSpDSTU">
 			<p>INSERT INTO sprStandart dstu VALUES (?)</p>
+		</db>
+		<db name="updateStandarts">
+			<p>INSERT INTO sprStandart (gost,ost,tu,dstu) VALUES (?,?,?,?)</p>
 		</db>
 		<db name="selectProductType">
 			<p>SELECT name FROM sprProductType</p>

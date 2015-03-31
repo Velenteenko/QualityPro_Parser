@@ -1,4 +1,4 @@
-package ua.com.vza.ParseDbf;
+package ua.com.vza.velenteenko.ParseDbf;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 import com.opencsv.CSVReader;
 
-import ua.com.vza.XmlSettings.ParseXmlSettings;
+import ua.com.vza.velenteenko.XmlSettings.ParseXmlSettings;
 import jcifs.smb.SmbFile;
 
 public class ReadDBFCSV {

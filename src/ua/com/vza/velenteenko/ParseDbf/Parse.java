@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.com.vza.ParseDbf;
+package ua.com.vza.velenteenko.ParseDbf;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ua.com.vza.XmlSettings.ParseXmlSettings;
+import ua.com.vza.velenteenko.XmlSettings.ParseXmlSettings;
 
 /**
  *
@@ -48,13 +48,13 @@ public class Parse {
 
 	private ArrayList<String> lines;
 
-//	public Parse() {
-//		readConfig();
-//	}
+	// public Parse() {
+	// readConfig();
+	// }
 
 	public Parse(boolean readWithCSV) {
 
-//		this();
+		// this();
 		this.readOptions = readWithCSV;
 
 		if (readOptions) {
@@ -79,7 +79,7 @@ public class Parse {
 
 		// if (readOptions) {
 		readConfig();
-//		this();
+		// this();
 		readCSVFLines = new ReadDBFCSV(pathToTargetCSVFile);
 		try {
 			lines = new ArrayList<String>(readCSVFLines.getCollectionRows());
@@ -94,9 +94,9 @@ public class Parse {
 	}
 
 	public Parse(String pathToFileTableDir, String smbTargetFile) {
-		 readConfig();
-		 readDBLines = new ReadDBFDB();
-		 lines = new ArrayList<String>(readDBLines.getCollectionRows());
+		readConfig();
+		readDBLines = new ReadDBFDB();
+		lines = new ArrayList<String>(readDBLines.getCollectionRows());
 	}
 
 	private void readConfig() {
@@ -132,22 +132,39 @@ public class Parse {
 
 	}
 
+	private String checkString(String stringtoCheck, String[] noQualifySymbols) {
+
+		String chStr = "";
+		for (int i = 0; i < noQualifySymbols.length; i++) {
+			if (stringtoCheck.contains(noQualifySymbols[i])) {
+				chStr = stringtoCheck.replace(noQualifySymbols[i], "");
+			}
+		}
+		if ((chStr == "") | (chStr.length() == 0)) {
+			return stringtoCheck;
+		} else {
+			return chStr;
+		}
+	}
+
 	private HashSet<String> readRegexLines(String pattern, int group) {
 		ArrayList<String> tmpList = new ArrayList<String>();
 		for (int i = 0; i < lines.size(); i++) {
 			// String retSt = "";
 			String line = lines.get(i);
-			if((line == "") | (line==null))
+			if ((line == "") | (line == null))
 				continue;
 			Pattern pp = Pattern.compile(pattern);
 			Matcher mm = pp.matcher(line);
 			if (group <= 0) {
 				while (mm.find()) {
-					tmpList.add(mm.group());
+					tmpList.add(checkString(mm.group(), new String[] { "||",
+							"'", "`" }));
 				}
 			} else {
 				while (mm.find()) {
-					tmpList.add(mm.group(group));
+					tmpList.add(checkString(mm.group(group),new String[] { "||",
+						"'", "`" }) );
 					// retSt+=mm.group(group);
 				}
 				// tmpList.add(retSt);
