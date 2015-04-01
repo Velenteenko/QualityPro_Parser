@@ -307,17 +307,17 @@ public class DBParseProcess {
 
 		fromParser = new Parse(false);
 		// Name
-//		Set<String> fromParse = new HashSet<String>(fromParser.getNames());
-//		if (fromParse.size() > paramsUpdateCounter[0]) {
-//			Set<String> fromDB = new HashSet<String>(selectValues(selectName,
-//					"String", new String[] { "name" }));
-//			insertValues(updateName, findNewRecords(fromParse, fromDB));
-//			paramsUpdateCounter[0] = fromParse.size();
-//			// cNewName = fromParse.size();
-//		}
+		Set<String> fromParse = new HashSet<String>(fromParser.getNames());
+		if (fromParse.size() > paramsUpdateCounter[0]) {
+			Set<String> fromDB = new HashSet<String>(selectValues(selectName,
+					"String", new String[] { "name" }));
+			insertValues(updateName, findNewRecords(fromParse, fromDB));
+			paramsUpdateCounter[0] = fromParse.size();
+			// cNewName = fromParse.size();
+		}
 
 		// Mark
-		Set<String> fromParse = new HashSet<String>(fromParser.getMark());
+		fromParse = new HashSet<String>(fromParser.getMark());
 		if (fromParse.size() > paramsUpdateCounter[1]) {
 			Set<String> fromDB = new HashSet<String>(selectValues(
 					selectProductType, "String", new String[] { "name" }));
@@ -326,41 +326,41 @@ public class DBParseProcess {
 		}
 
 		// GOST
-//		fromParse = new HashSet<String>(fromParser.getGosts());
-//		if (fromParse.size() > paramsUpdateCounter[2]) {
-//			Set<String> fromDB = new HashSet<String>(selectValues(selectSpGOST,
-//					"String", new String[] { "gost" }));
-//			insertValues(updateSpGOST, findNewRecords(fromParse, fromDB));
-//			paramsUpdateCounter[2] = fromDB.size();
-//		}
+		fromParse = new HashSet<String>(fromParser.getGosts());
+		if (fromParse.size() > paramsUpdateCounter[2]) {
+			Set<String> fromDB = new HashSet<String>(selectValues(selectSpGOST,
+					"String", new String[] { "gost" }));
+			insertValues(updateSpGOST, findNewRecords(fromParse, fromDB));
+			paramsUpdateCounter[2] = fromDB.size();
+		}
 
 		// OST
-//		fromParse = new HashSet<String>(fromParser.getOst());
-//		if (fromParse.size() > paramsUpdateCounter[3]) {
-//			Set<String> fromDB = new HashSet<String>(selectValues(selectSpOST,
-//					"String", new String[] { "ost" }));
-//			insertValues(updateSpOST, findNewRecords(fromParse, fromDB));
-//			paramsUpdateCounter[3] = fromDB.size();
-//		}
+		fromParse = new HashSet<String>(fromParser.getOst());
+		if (fromParse.size() > paramsUpdateCounter[3]) {
+			Set<String> fromDB = new HashSet<String>(selectValues(selectSpOST,
+					"String", new String[] { "ost" }));
+			insertValues(updateSpOST, findNewRecords(fromParse, fromDB));
+			paramsUpdateCounter[3] = fromDB.size();
+		}
 
 		// TU
-//		fromParse = new HashSet<String>(fromParser.getTu());
-//		if (fromParse.size() > paramsUpdateCounter[4]) {
-//			Set<String> fromDB = new HashSet<String>(selectValues(selectSpTU,
-//					"String", new String[] { "tu" }));
-//			insertValues(updateSpTU, findNewRecords(fromParse, fromDB));
-//			paramsUpdateCounter[4] = fromDB.size();
-//		}
+		fromParse = new HashSet<String>(fromParser.getTu());
+		if (fromParse.size() > paramsUpdateCounter[4]) {
+			Set<String> fromDB = new HashSet<String>(selectValues(selectSpTU,
+					"String", new String[] { "tu" }));
+			insertValues(updateSpTU, findNewRecords(fromParse, fromDB));
+			paramsUpdateCounter[4] = fromDB.size();
+		}
 
 		// DSTU
-//		fromParse = new HashSet<String>(fromParser.getDstu());
-//		if (fromParse.size() > paramsUpdateCounter[5]) {
-//			Set<String> fromDB = new HashSet<String>(selectValues(selectSpDSTU,
-//					"String", new String[] { "dstu" }));
-//			insertValues(updateSpDSTU, findNewRecords(fromParse, fromDB));
-//			paramsUpdateCounter[5] = fromDB.size();
-//		}
-//		updateValueOfCountRows(updateCountRecord, paramsUpdateCounter);
+		fromParse = new HashSet<String>(fromParser.getDstu());
+		if (fromParse.size() > paramsUpdateCounter[5]) {
+			Set<String> fromDB = new HashSet<String>(selectValues(selectSpDSTU,
+					"String", new String[] { "dstu" }));
+			insertValues(updateSpDSTU, findNewRecords(fromParse, fromDB));
+			paramsUpdateCounter[5] = fromDB.size();
+		}
+		updateValueOfCountRows(updateCountRecord, paramsUpdateCounter);
 		closeConnections();
 	}
 }

@@ -159,12 +159,12 @@ public class Parse {
 			if (group <= 0) {
 				while (mm.find()) {
 					tmpList.add(checkString(mm.group(), new String[] { "||",
-							"'", "`" }));
+							"'", "`" }).trim());
 				}
 			} else {
 				while (mm.find()) {
 					tmpList.add(checkString(mm.group(group),new String[] { "||",
-						"'", "`" }) );
+						"'", "`" }).trim() );
 					// retSt+=mm.group(group);
 				}
 				// tmpList.add(retSt);

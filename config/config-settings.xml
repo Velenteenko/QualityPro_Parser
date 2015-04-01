@@ -96,40 +96,40 @@
 			<p>SELECT name FROM sprProductName</p>
 		</db>
 		<db name="insertName">
-			<p>INSERT INTO sprProductName name VALUES (?)</p>
-		</db>
-		<db name="selectSpGOST">
-			<p>SELECT (gost) FROM sprStandart</p>
-		</db>
-		<db name="insertSpGOST">
-			<p>INSERT INTO sprStandart gost VALUES (?)</p>
-		</db>
-		<db name="selectSpOST">
-			<p>SELECT ost FROM sprStandart</p>
-		</db>
-		<db name="insertSpOST">
-			<p>INSERT INTO sprStandart ost VALUES (?)</p>
-		</db>
-		<db name="selectSpTU">
-			<p>SELECT tu FROM sprStandart</p>
-		</db>
-		<db name="insertSpTU">
-			<p>INSERT INTO sprStandart tu VALUES (?)</p>
-		</db>
-		<db name="selectSpDSTU">
-			<p>SELECT dstu FROM sprStandart</p>
-		</db>
-		<db name="insertSpDSTU">
-			<p>INSERT INTO sprStandart dstu VALUES (?)</p>
-		</db>
-		<db name="updateStandarts">
-			<p>INSERT INTO sprStandart (gost,ost,tu,dstu) VALUES (?,?,?,?)</p>
+			<p>INSERT INTO sprProductName (name) VALUES (?)</p>
 		</db>
 		<db name="selectProductType">
 			<p>SELECT name FROM sprProductType</p>
 		</db>
 		<db name="insertProductType">
-			<p>INSERT INTO sprProductType name VALUES (?)</p>
+			<p>INSERT INTO sprProductType (name) VALUES (?)</p>
+		</db>
+		<db name="selectSpGOST">
+			<p>SELECT name FROM sprStandart WHERE id_type=1</p>
+		</db>
+		<db name="insertSpGOST">
+			<p>INSERT INTO sprStandart (name,id_type) VALUES (?,1)</p>
+		</db>
+		<db name="selectSpOST">
+			<p>SELECT name FROM sprStandart WHERE id_type=2</p>
+		</db>
+		<db name="insertSpOST">
+			<p>INSERT INTO sprStandart (name,id_type) VALUES (?,2)</p>
+		</db>
+		<db name="selectSpTU">
+			<p>SELECT name FROM sprStandart WHERE id_type=3</p>
+		</db>
+		<db name="insertSpTU">
+			<p>INSERT INTO sprStandart (name,id_type) VALUES (?,3)</p>
+		</db>
+		<db name="selectSpDSTU">
+			<p>SELECT name FROM sprStandart WHERE id_type=4</p>
+		</db>
+		<db name="insertSpDSTU">
+			<p>INSERT INTO sprStandart (name,id_type) VALUES (?,4)</p>
+		</db>
+		<db name="updateStandarts">
+			<p>INSERT INTO sprStandart (gost,ost,tu,dstu) VALUES (?,?,?,?)</p>
 		</db>
 		<db name="selectCountRecord">
 			<p>SELECT
